@@ -4,13 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="users.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <title>Downloads - Cruzr Car Rental</title>
 </head>
 <body>
 
   <!-- Navbar -->
   <nav class="navbar">
-    <img src="logo.png" alt="Cruzr" class="nav-logo">
+    <img src="..\assets\logo.png" alt="Cruzr" class="nav-logo">
     <div class="nav-menu">
       <a href="homepage.html" class="nav-link">Home</a>
       <a href="#" class="nav-link">Booking</a>
@@ -23,7 +24,7 @@
   <!-- Hero Section -->
   <section class="hero" aria-labelledby="downloads-title">
     <h1 id="downloads-title">📄 Project Documents — Downloads</h1>
-    <p>All documents are listed below. Click to convert and download any file as a PDF.</p>
+    <p>Click a card to download the document as PDF. These are the organized primary docs: Resources, Downloads, Issues.</p>
   </section>
 
   <!-- Downloads Section -->
@@ -36,65 +37,76 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script>
-    // 📂 List of Markdown files in the docs folder
+    // Files to expose on the Downloads page (must match docs/ filenames)
     const files = [
-      "features.md",
-      "contributing.md",
-      "code of conduct.md",
-      "readme_draft.md",
-      "faq.md",
+      "Resources.md",
+      "Downloads.md",
+      "Issues.md",
       "architecture.md",
-      "api.md"
+      "api.md",
+      "contributing.md",
+      "code_of_conduct.md"
     ];
 
-    // 🔗 GitHub raw link to your docs folder (update if needed)
-const baseURL = "https://raw.githubusercontent.com/ftmaalt/Car-rental-System/main/docs/";
+    // Raw GitHub base for fetching markdown (update if you host docs elsewhere)
+    const baseURL = "https://raw.githubusercontent.com/ftmaalt/Car-rental-System/main/docs/";
 
     const container = document.getElementById("downloads");
 
-    files.forEach(file => {
-      const card = document.createElement("a");
-      card.className = "resource-card";
-      card.href = "#";
-      card.innerHTML = `
-        <div class="card-icon">📘</div>
-        <h3>${file.replace(".md", "").replace(/_/g, " ")}</h3>
+    function makeCard(title, fileName) {
+      const a = document.createElement("a");
+      a.className = "resource-card";
+      a.href = "#";
+      a.dataset.file = fileName;
+      a.innerHTML = `
+        <div class="card-icon"><i class="fa-solid fa-file-pdf"></i></div>
+        <h3>${title}</h3>
         <p>Click to download as PDF</p>
       `;
-
-      card.addEventListener("click", async (e) => {
+      a.addEventListener("click", async (e) => {
         e.preventDefault();
         try {
-          const url = baseURL + encodeURIComponent(file);
-          const response = await fetch(url);
-          if (!response.ok) throw new Error("Cannot load file");
-          const markdownText = await response.text();
-          const html = marked.parse(markdownText);
+          const url = baseURL + encodeURIComponent(fileName);
+          const res = await fetch(url);
+          if (!res.ok) throw new Error("Cannot fetch " + fileName);
+          const md = await res.text();
+          const html = marked.parse(md);
 
-          // Convert Markdown to PDF
+          // Convert simple HTML -> plain text lines for PDF (keeps layout consistent)
+          const tmp = document.createElement('div');
+          tmp.innerHTML = html;
+          const text = tmp.innerText.replace(/\r/g, '');
+          const lines = text.split('\n').map(l => l.trim()).filter(l => l !== '');
+
           const { jsPDF } = window.jspdf;
           const doc = new jsPDF({ unit: "pt", format: "a4" });
-          const lines = html.replace(/<[^>]+>/g, '').split('\n');
-
-          let y = 40;
           doc.setFont("helvetica", "normal");
-          doc.setFontSize(12);
+          doc.setFontSize(11);
+          let y = 40;
+          const left = 40;
+          const maxWidth = 515;
+
           lines.forEach(line => {
-            if (line.trim() !== "") {
-              doc.text(line.substring(0, 95), 40, y);
-              y += 18;
-              if (y > 770) { doc.addPage(); y = 40; }
-            }
+            const splitted = doc.splitTextToSize(line, maxWidth);
+            doc.text(splitted, left, y);
+            y += 14 * splitted.length;
+            if (y > 760) { doc.addPage(); y = 40; }
           });
 
-          doc.save(file.replace(".md", ".pdf"));
+          const outName = fileName.replace(/\.md$/i, ".pdf");
+          doc.save(outName);
         } catch (err) {
-          alert("❌ Error converting file: " + file);
           console.error(err);
+          alert("Failed to convert/download: " + fileName);
         }
       });
+      return a;
+    }
 
-      container.appendChild(card);
+    // Build UI
+    files.forEach(f => {
+      const title = f.replace(/[_\-]/g, ' ').replace(/\.md$/i, '').replace(/\b\w/g, c => c.toUpperCase());
+      container.appendChild(makeCard(title, f));
     });
   </script>
 
