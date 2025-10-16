@@ -1,0 +1,137 @@
+{
+  "cards": [
+    {
+      "section": "Insurance Coverage",
+      "title": "Vehicle Categories",
+      "items": [
+        "Luxurious Car Insurance - Premium coverage for high-end vehicles",
+        "SUV Insurance - Comprehensive coverage for sport utility vehicles",
+        "Normal Car Insurance - Standard coverage for regular vehicles"
+      ]
+    },
+    {
+      "section": "Insurance Coverage",
+      "title": "Insurance Sign-up",
+      "subtitle": "Easy steps to get covered:",
+      "items": [
+        "Select your vehicle category",
+        "Fill in personal details",
+        "Choose coverage options",
+        "Complete registration"
+      ]
+    },
+    {
+      "section": "Additional Services",
+      "title": "Transaction History",
+      "subtitle": "Access your complete rental history:",
+      "items": [
+        "View past and upcoming rentals",
+        "Track pick-up and drop-off locations",
+        "Monitor payment status",
+        "Download receipts"
+      ]
+    },
+    {
+      "section": "Additional Services",
+      "title": "Extra Features",
+      "items": [
+        "Drop-off at different location options",
+        "24/7 customer support",
+        "Real-time booking updates",
+        "Flexible cancellation policies"
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "category": "Booking",
+      "question": "How do I make a car reservation?",
+      "answer": "To book a car: 1. Select your preferred vehicle category (Luxurious, SUV, or Normal) 2. Choose pick-up and drop-off locations 3. Select rental dates and times 4. Add any additional services 5. Proceed to payment"
+    },
+    {
+      "category": "Booking",
+      "question": "How do I modify my booking?",
+      "answer": "Open the 'Bookings' tab, select your active reservation, and tap 'Modify'. You can change the dates, times, or vehicle category if available."
+    },
+    {
+      "category": "Booking",
+      "question": "What is the cancellation policy?",
+      "answer": "Free cancellation is available up to 24 hours before pick-up. Cancellations within 24 hours may incur a fee of one day's rental charge."
+    },
+    {
+      "category": "Booking",
+      "question": "Can I extend my rental period?",
+      "answer": "Yes, you can extend your rental through the app. Go to 'Active Rentals', select your booking, and choose 'Extend Rental'. Extensions are subject to vehicle availability."
+    },
+    {
+      "category": "Payment",
+      "question": "Which payment methods are accepted?",
+      "answer": "Cruzr accepts Apple Pay, Credit Card, Cash on Pick-up, and Benefit payment services."
+    },
+    {
+      "category": "Payment",
+      "question": "When am I charged for my reservation?",
+      "answer": "For Credit Card and Apple Pay bookings, a hold is placed at the time of reservation. The final charge occurs at pick-up. For Cash on Pick-up, payment is collected when you receive the vehicle."
+    },
+    {
+      "category": "Payment",
+      "question": "What happens if I return the car late?",
+      "answer": "Late returns are charged at an hourly rate of the daily price. Returns more than 3 hours late are charged a full additional day."
+    },
+    {
+      "category": "Insurance",
+      "question": "What insurance options are available?",
+      "answer": "We offer three types of coverage: Luxurious Car Insurance, SUV Insurance, and Normal Car Insurance. Each provides comprehensive protection tailored to the vehicle category."
+    },
+    {
+      "category": "Insurance",
+      "question": "What does the insurance cover?",
+      "answer": "Our insurance includes collision damage waiver, theft protection, third-party liability, and personal accident insurance. Specific coverage details vary by vehicle category."
+    },
+    {
+      "category": "Insurance",
+      "question": "How do I add insurance to my rental?",
+      "answer": "Insurance can be added during the booking process or by modifying an existing reservation before pick-up. Select your preferred coverage level from the insurance options screen."
+    },
+    {
+      "category": "Vehicle",
+      "question": "What types of vehicles are available?",
+      "answer": "We offer three categories: Luxurious (premium and luxury vehicles), SUV (sport utility vehicles), and Normal (standard sedans and economy cars)."
+    },
+    {
+      "category": "Vehicle",
+      "question": "What's included in the rental?",
+      "answer": "All rentals include basic insurance, 24/7 roadside assistance, and unlimited mileage. Additional services like GPS or child seats can be added during booking."
+    },
+    {
+      "category": "Vehicle",
+      "question": "What fuel policy applies?",
+      "answer": "Vehicles are provided with a full tank and should be returned full. If returned with less fuel, you'll be charged the current market rate plus a refueling service fee."
+    },
+    {
+      "category": "Account",
+      "question": "How do I view my rental history?",
+      "answer": "Access your complete rental history in the Transaction History section. You can view past rentals, payments, and download receipts."
+    },
+    {
+      "category": "Account",
+      "question": "What documents do I need to rent a car?",
+      "answer": "You'll need a valid driver's license, credit card in the renter's name, and a valid form of ID. For luxury vehicles, additional documentation may be required."
+    },
+    {
+      "category": "Support",
+      "question": "How do I contact customer service?",
+      "answer": "You can reach our 24/7 support team through: 1. In-app chat 2. Email at support@cruzr.com 3. Phone at 1-800-CRUZR"
+    },
+    {
+      "category": "Support",
+      "question": "What should I do in case of an accident?",
+      "answer": "1. Ensure everyone's safety 2. Contact local authorities if necessary 3. Document the incident with photos 4. Contact our 24/7 emergency support 5. Fill out the incident report in the app"
+    },
+    {
+      "category": "Support",
+      "question": "What if I have mechanical issues during rental?",
+      "answer": "Contact our 24/7 roadside assistance immediately. We'll either fix the issue or provide a replacement vehicle. All costs are covered under your rental agreement."
+    }
+  ]
+}

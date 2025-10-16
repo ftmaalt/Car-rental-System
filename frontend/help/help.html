@@ -3,9 +3,685 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help Page</title>
+    <title>Help Center - Cruzr Car Rental</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(180deg, #0A1229 0%, #164E63 100%);
+            --nav-gradient: linear-gradient(90deg, #0A1229 0%, #164E63 100%);
+            --surface-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent-color: #22D3EE;
+            --logo-yellow: #FFC600;
+            --logo-yellow-shadow: rgba(255,198,0,0.22);
+            --dark-section: #071229;
+            --border-radius: 12px;
+            --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.3);
+            --success-color: #10B981;
+            --error-color: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: var(--primary-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: var(--nav-gradient);
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-logo {
+            height: 40px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link.active {
+            color: var(--accent-color);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--primary-gradient);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-dot {
+            color: var(--logo-yellow);
+            margin-left: 6px;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem 3rem;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--accent-color);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 1rem;
+            box-shadow: var(--glow-cyan);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-color);
+        }
+
+        .category-chips {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .chip {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chip:hover {
+            background: var(--accent-color);
+            color: var(--text-primary);
+            box-shadow: var(--glow-cyan);
+        }
+
+        /* FAQ Section */
+        /* Make the FAQ section full-bleed while keeping cards centered inside a constrained grid */
+        .faq-section {
+            /* full-bleed trick: span the entire viewport width */
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            background: var(--dark-section);
+            padding-top: 36px;
+            padding-bottom: 48px;
+            padding-left: 5%;
+            padding-right: 5%;
+            border-radius: 0; /* keep section flush with edges */
+        }
+
+        .faq-grid {
+            max-width: 1100px; /* constrain the cards area */
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            padding: 1rem 0;
+            justify-items: center; /* center cards within the grid cells */
+            width: 100%;
+        }
+
+        .faq-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgb(34, 211, 238);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+            width: 100%;
+            max-width: 420px; /* keep cards a comfortable readable width */
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 40px rgb(34, 211, 238); /* logo-yellow glow */
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .faq-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+            line-height: 1.3;
+            font-weight: 600;
+        }
+
+        .faq-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-top: 8px;
+            opacity: 1; /* visible by default for clarity */
+            transform: none;
+            transition: none;
+        }
+
+        .category-label {
+            font-size: 0.78rem;
+            color: #FFC600; /* small yellow label to match logo */
+            text-transform: uppercase;
+            margin-bottom: 0.45rem;
+            letter-spacing: 0.6px;
+            opacity: 0.95;
+        }
+
+
+
+        /* Footer */
+        .footer {
+            background: var(--nav-gradient);
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-color);
+        }
+
+        /* Search Results Styling */
+        .no-results {
+            color: var(--logo-yellow);
+            text-align: center;
+            padding: 2rem;
+            background: transparent;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+        }
+
+        mark {
+            background: rgba(34, 211, 238, 0.2);
+            color: var(--accent-color);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        /* Form Feedback */
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .submit-btn.success {
+            background: var(--success-color);
+        }
+
+        .submit-btn.error {
+            background: var(--error-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .category-chips {
+                flex-wrap: wrap;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Support FAB & Panel */
+
+        /* FAB with yellow glow + entrance animation */
+        .fab {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.45), 0 0 18px var(--logo-yellow-shadow);
+            border: none;
+            cursor: pointer;
+            z-index: 2200;
+            transform: translateY(8px) scale(0.95);
+            opacity: 0;
+            animation: fabIn 420ms cubic-bezier(.2,.9,.3,1) forwards 120ms;
+        }
+
+        .fab:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.5), 0 0 26px var(--logo-yellow-shadow); transform: translateY(0) scale(1); }
+
+        .fab img { width: 60%; height: 60%; object-fit: contain; filter: brightness(0) invert(1); }
+
+        @keyframes fabIn {
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        /* Support overlay/panel animations */
+        .support-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.0);
+            z-index: 2100;
+            pointer-events: none;
+            visibility: hidden;
+            opacity: 0;
+            transition: background 220ms ease, opacity 220ms ease;
+            backdrop-filter: blur(0px);
+        }
+
+        .support-overlay.open {
+            background: rgba(0,0,0,0.35);
+            pointer-events: auto;
+            visibility: visible;
+            opacity: 1;
+            backdrop-filter: blur(6px);
+        }
+
+        .support-panel {
+            width: 420px;
+            max-width: 92%;
+            background: linear-gradient(180deg, #081426, #0b2230);
+            border-radius: 12px;
+            padding: 20px 20px 24px 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            color: var(--text-primary);
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.04);
+            transform: translateY(-8px) scale(0.96);
+            opacity: 0;
+            transition: transform 220ms cubic-bezier(.2,.9,.3,1), opacity 220ms ease;
+        }
+
+        .support-overlay.open .support-panel {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .support-close { position: absolute; right: 12px; top: 10px; background: none; border: none; color: var(--text-secondary); font-size: 22px; cursor: pointer; }
+
+        .support-panel h2 { margin: 0 0 8px 0; color: var(--logo-yellow); font-size: 1.25rem; }
+
+        .support-panel p { color: var(--text-secondary); margin-bottom: 12px; }
+
+        .support-panel .mini-form input, .support-panel .mini-form textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); color: var(--text-primary); margin-bottom: 10px; }
+
+        .support-panel .mini-form button { width: 100%; padding: 10px; border-radius: 8px; border: none; background: var(--accent-color); color: #012; font-weight: 700; cursor: pointer; }
+    </style>
 </head>
 <body>
-    
+    <!-- Navbar -->
+    <nav class="navbar">
+        <img src="logo.png" alt="Cruzr" class="nav-logo">
+        <div class="nav-menu">
+            <a href="#" class="nav-link">Home</a>
+            <a href="#" class="nav-link">Booking</a>
+            <a href="#" class="nav-link">Insurance</a>
+            <a href="#" class="nav-link active">Help</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>We're here to <span class="logo-dot">help.</span></h1>
+        <p>Search FAQs, find quick answers, or contact our support team.</p>
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-bar" placeholder="How can we assist you today?">
+        </div>
+        <div class="category-chips">
+            <span class="chip">Booking</span>
+            <span class="chip">Payments</span>
+            <span class="chip">Insurance</span>
+            <span class="chip">Fines</span>
+            <span class="chip">Account</span>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-grid" id="faqGrid"></div>
+    </section>
+
+    <!-- Support FAB + Overlay -->
+    <button id="supportFab" class="fab" aria-label="Customer Support">
+        <img src="customer-support.png" alt="Support">
+    </button>
+
+    <div id="supportOverlay" class="support-overlay" aria-hidden="true">
+        <div class="support-panel" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
+            <button id="supportClose" class="support-close" aria-label="Close">×</button>
+            <h2 id="supportTitle">Customer Support</h2>
+            <p>Start a chat or send us a message and our support team will get back to you shortly.</p>
+            <form id="supportMiniForm" class="mini-form">
+                <input type="text" name="name" placeholder="Full name" required />
+                <input type="email" name="email" placeholder="Email" required />
+                <textarea name="message" rows="4" placeholder="Write your message..." required></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Load FAQ data from faq.json
+        const faqGrid = document.getElementById('faqGrid');
+        
+        // Generate FAQ HTML
+        function generateFAQHTML(faqs) {
+            if (faqs.length === 0) {
+                return `
+                    <div class="no-results">
+                        <p>We couldn't find that. Try another keyword or contact support.</p>
+                    </div>
+                `;
+            }
+
+            return faqs.map(faq => `
+                <div class="faq-card">
+                    <div class="category-label">${faq.category}</div>
+                    <h3>${faq.question}</h3>
+                    <p>${faq.answer}</p>
+                </div>
+            `).join('');
+        }
+
+        // Initial FAQ render
+        fetch('faq.json')
+            .then(response => response.json())
+            .then(data => {
+                faqData = data.faqs;
+                faqGrid.innerHTML = generateFAQHTML(faqData);
+            })
+            .catch(error => console.error('Error loading FAQs:', error));
+
+        // Search functionality
+        const searchBar = document.querySelector('.search-bar');
+        
+        function highlightText(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(query, 'gi');
+            return text.replace(regex, match => `<mark>${match}</mark>`);
+        }
+
+        function filterFAQs(query) {
+            if (!query) return faqData;
+            
+            query = query.toLowerCase();
+            return faqData.filter(faq => 
+                faq.question.toLowerCase().includes(query) || 
+                faq.answer.toLowerCase().includes(query) ||
+                faq.category.toLowerCase().includes(query)
+            ).map(faq => ({
+                ...faq,
+                question: highlightText(faq.question, query),
+                answer: highlightText(faq.answer, query)
+            }));
+        }
+
+        searchBar.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            const filteredFAQs = filterFAQs(query);
+            faqGrid.innerHTML = generateFAQHTML(filteredFAQs);
+        });
+
+        // Category filter functionality
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const category = chip.textContent;
+                const filteredFAQs = category === 'All' 
+                    ? faqData 
+                    : faqData.filter(faq => faq.category === category);
+                faqGrid.innerHTML = generateFAQHTML(filteredFAQs);
+                
+                // Update active state
+                document.querySelectorAll('.chip').forEach(c => 
+                    c.classList.toggle('active', c === chip)
+                );
+            });
+        });
+
+        // Form submission with mock API delay (guarded - only initialize if form exists)
+        const supportForm = document.getElementById('support-form');
+        if (supportForm) {
+            const submitBtn = supportForm.querySelector('.submit-btn');
+
+            supportForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // Disable submit button and show loading state
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = 'Sending...';
+                }
+
+                // Get form data
+                const formData = new FormData(supportForm);
+                const data = Object.fromEntries(formData.entries());
+
+                // Simulate API call
+                console.log('Submitting form data:', data);
+
+                try {
+                    // Simulate network delay
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    // Show success message
+                    if (submitBtn) {
+                        submitBtn.innerHTML = 'Message Sent!';
+                        submitBtn.style.background = 'var(--success-color)';
+                    }
+
+                    // Reset form
+                    supportForm.reset();
+
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = 'Send Message';
+                            submitBtn.style.background = 'var(--primary-gradient)';
+                        }
+                    }, 2000);
+
+                } catch (error) {
+                    // Handle error
+                    console.error('Error:', error);
+                    if (submitBtn) {
+                        submitBtn.innerHTML = 'Error! Try Again';
+                        submitBtn.style.background = 'var(--error-color)';
+                    }
+
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = 'Send Message';
+                            submitBtn.style.background = 'var(--primary-gradient)';
+                        }
+                    }, 2000);
+                }
+            });
+        } else {
+            // No main support form on this page; avoid blocking JS execution
+            console.warn('No #support-form found; skipping main form initialization.');
+        }
+
+        // Support FAB behavior (guarded)
+        document.addEventListener('DOMContentLoaded', () => {
+            const supportFab = document.getElementById('supportFab');
+            const supportOverlay = document.getElementById('supportOverlay');
+            const supportClose = document.getElementById('supportClose');
+            const supportMiniForm = document.getElementById('supportMiniForm');
+
+            if (!supportFab || !supportOverlay) return; // nothing to do
+
+            function openSupport() {
+                supportOverlay.classList.add('open');
+                supportOverlay.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSupport() {
+                supportOverlay.classList.remove('open');
+                supportOverlay.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
+
+            supportFab.addEventListener('click', openSupport);
+
+            if (supportClose) supportClose.addEventListener('click', closeSupport);
+            supportOverlay.addEventListener('click', (e) => {
+                if (e.target === supportOverlay) closeSupport();
+            });
+
+            if (supportMiniForm) {
+                supportMiniForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formEntries = Object.fromEntries(new FormData(supportMiniForm).entries());
+                    const formData = { ...formEntries, page: window.location.href };
+                    console.log('Support message (sending to Formspree):', formData);
+                    const btn = supportMiniForm.querySelector('button');
+                    if (btn) { btn.disabled = true; btn.innerText = 'Sending...'; }
+
+                    // send to your Formspree endpoint
+                    const FORM_ENDPOINT = 'https://formspree.io/f/myznlojl';
+                    try {
+                        const res = await fetch(FORM_ENDPOINT, {
+                            method: 'POST',
+                            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                            body: JSON.stringify(formData)
+                        });
+
+                        if (res.ok) {
+                            if (btn) { btn.innerText = 'Sent!'; btn.classList.add('success'); }
+                            supportMiniForm.reset();
+                            setTimeout(() => { if (btn) { btn.disabled = false; btn.innerText = 'Send'; btn.classList.remove('success'); } closeSupport(); }, 900);
+                            return;
+                        }
+
+                        // non-OK from Formspree, fall back
+                        console.warn('Formspree returned non-OK status', res.status);
+                    } catch (err) {
+                        console.warn('Error submitting to Formspree, falling back to mailto', err);
+                    }
+
+                    // fallback: open user's mail client
+                    const to = 'Lii.hj323@gmail.com';
+                    const subject = `Cruzr Support Request from ${formData.name || 'Guest'}`;
+                    const bodyLines = [];
+                    bodyLines.push(`Name: ${formData.name || ''}`);
+                    bodyLines.push(`Email: ${formData.email || ''}`);
+                    bodyLines.push('');
+                    bodyLines.push('Message:');
+                    bodyLines.push(formData.message || '');
+                    bodyLines.push('');
+                    bodyLines.push(`Page: ${window.location.href}`);
+                    const body = encodeURIComponent(bodyLines.join('\n'));
+                    const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${body}`;
+                    window.location.href = mailto;
+
+                    // quick UI feedback after fallback
+                    setTimeout(() => {
+                        if (btn) { btn.innerText = 'Sent!'; btn.disabled = false; }
+                        setTimeout(() => { supportMiniForm.reset(); if (btn) btn.innerText = 'Send'; closeSupport(); }, 900);
+                    }, 800);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
