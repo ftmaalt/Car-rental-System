@@ -1,1 +1,140 @@
-<!-- TODO: Frontend user page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="users.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>Users - Cruzr Car Rental</title>
+</head>
+<body>
+   <!-- Navbar -->
+    <nav class="navbar">
+        <img src="logo.png" alt="Cruzr" class="nav-logo">
+        <div class="nav-menu">
+            <a href="homepage.html" class="nav-link">Home</a>
+            <a href="#" class="nav-link">Booking</a>
+            <a href="#" class="nav-link">Insurance</a>
+            <a href="help.html" class="nav-link">Help</a>
+            <a href="users.html" class="nav-link active">Users</a>
+        </div>
+    </nav>
+
+  <section class="hero" aria-labelledby="users-title">
+    <h1 id="users-title">Project Users</h1>
+    <p>Registered users for development and testing.</p>
+  </section>
+
+  <!-- Users list -->
+  <section class="faq-section" aria-label="Registered users">
+    <div class="faq-grid" id="user-list">
+      <!-- user cards injected here -->
+    </div>
+
+    <div id="no-results" class="no-results" style="display:none;">No users found.</div>
+  </section>
+
+  <!-- Centered resource cards (medal-like) -->
+  <section class="resources-center" aria-label="Project resources">
+    <div class="resource-cards">
+      <a class="resource-card" href="https://github.com/ftmaalt/Car-rental-System.git" target="_blank" rel="noopener">
+        <div class="card-icon"><i class="fa-brands fa-github"></i></div>
+        <h3>Resources</h3>
+        <p> 🔗 View Project Source Code (GitHub Repository).</p>
+      </a>
+
+      <a class="resource-card" href="downloads.html" target="_blank" rel="noopener">
+        <div class="card-icon"><i class="fa-solid fa-download"></i></div>
+        <h3>Downloads</h3>
+        <p> 📄 Architecture Document and  API Document</p>
+      </a>
+
+      <a class="resource-card" href="https://github.com/ftmaalt/Car-rental-System/issues" target="_self" rel="noopener">
+        <div class="card-icon"><i class="fa-solid fa-circle-info"></i></div>
+        <h3>Issues</h3>
+        <p> 🐞 Report or View Issues in  GitHub Repository </p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Support FAB + Overlay -->
+  <button id="supportFab" class="fab" aria-label="Customer Support">
+    <i class="fa fa-headset" aria-hidden="true" style="font-size:20px;color:#012;"></i>
+  </button>
+
+  <div id="supportOverlay" class="support-overlay" aria-hidden="true">
+    <div class="support-panel" role="dialog" aria-modal="true" aria-label="Customer support panel">
+      <button class="support-close" id="supportClose" aria-label="Close support">✕</button>
+      <h2>Contact Support</h2>
+      <p>Send a quick message and we'll get back to you.</p>
+      <form class="mini-form" id="supportForm">
+        <input type="text" id="supportName" placeholder="Your name" required>
+        <input type="email" id="supportEmail" placeholder="Email" required>
+        <textarea id="supportMessage" placeholder="Message" rows="4" required></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    async function loadUsers() {
+      const list = document.getElementById('user-list');
+      const noResults = document.getElementById('no-results');
+      try {
+        const res = await fetch('http://127.0.0.1:5000/api/users');
+        if (!res.ok) throw new Error('Network response was not ok');
+        const data = await res.json();
+        list.innerHTML = '';
+        if (!Array.isArray(data) || data.length === 0) {
+          noResults.style.display = 'block';
+          return;
+        }
+        noResults.style.display = 'none';
+        data.forEach(user => {
+          const card = document.createElement('article');
+          card.className = 'faq-card';
+          const name = document.createElement('h3');
+          name.textContent = user.name || 'Unnamed';
+          const email = document.createElement('p');
+          email.textContent = user.email || '';
+          card.appendChild(name);
+          card.appendChild(email);
+          list.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Failed to load users:', err);
+        noResults.style.display = 'block';
+        noResults.textContent = 'Unable to load users. Make sure the backend is running.';
+      }
+    }
+
+    // Support FAB logic
+    const fab = document.getElementById('supportFab');
+    const overlay = document.getElementById('supportOverlay');
+    const closeBtn = document.getElementById('supportClose');
+    const supportForm = document.getElementById('supportForm');
+
+    function openSupport() {
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+    function closeSupport() {
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    fab.addEventListener('click', openSupport);
+    closeBtn.addEventListener('click', closeSupport);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeSupport(); });
+
+    supportForm.addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Message sent (demo).');
+      supportForm.reset();
+      closeSupport();
+    });
+
+    loadUsers();
+  </script>
+</body>
+</html>

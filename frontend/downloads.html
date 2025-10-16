@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="users.css" />
+  <title>Downloads - Cruzr Car Rental</title>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <img src="logo.png" alt="Cruzr" class="nav-logo">
+    <div class="nav-menu">
+      <a href="homepage.html" class="nav-link">Home</a>
+      <a href="#" class="nav-link">Booking</a>
+      <a href="#" class="nav-link">Insurance</a>
+      <a href="help.html" class="nav-link">Help</a>
+      <a href="users.html" class="nav-link active">Users</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" aria-labelledby="downloads-title">
+    <h1 id="downloads-title">📄 Project Documents — Downloads</h1>
+    <p>All documents are listed below. Click to convert and download any file as a PDF.</p>
+  </section>
+
+  <!-- Downloads Section -->
+  <section class="resources-center">
+    <div class="resource-cards" id="downloads"></div>
+  </section>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    // 📂 List of Markdown files in the docs folder
+    const files = [
+      "features.md",
+      "contributing.md",
+      "code of conduct.md",
+      "readme_draft.md",
+      "faq.md",
+      "architecture.md",
+      "api.md"
+    ];
+
+    // 🔗 GitHub raw link to your docs folder (update if needed)
+const baseURL = "https://raw.githubusercontent.com/ftmaalt/Car-rental-System/main/docs/";
+
+    const container = document.getElementById("downloads");
+
+    files.forEach(file => {
+      const card = document.createElement("a");
+      card.className = "resource-card";
+      card.href = "#";
+      card.innerHTML = `
+        <div class="card-icon">📘</div>
+        <h3>${file.replace(".md", "").replace(/_/g, " ")}</h3>
+        <p>Click to download as PDF</p>
+      `;
+
+      card.addEventListener("click", async (e) => {
+        e.preventDefault();
+        try {
+          const url = baseURL + encodeURIComponent(file);
+          const response = await fetch(url);
+          if (!response.ok) throw new Error("Cannot load file");
+          const markdownText = await response.text();
+          const html = marked.parse(markdownText);
+
+          // Convert Markdown to PDF
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF({ unit: "pt", format: "a4" });
+          const lines = html.replace(/<[^>]+>/g, '').split('\n');
+
+          let y = 40;
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(12);
+          lines.forEach(line => {
+            if (line.trim() !== "") {
+              doc.text(line.substring(0, 95), 40, y);
+              y += 18;
+              if (y > 770) { doc.addPage(); y = 40; }
+            }
+          });
+
+          doc.save(file.replace(".md", ".pdf"));
+        } catch (err) {
+          alert("❌ Error converting file: " + file);
+          console.error(err);
+        }
+      });
+
+      container.appendChild(card);
+    });
+  </script>
+
+</body>
+</html>
