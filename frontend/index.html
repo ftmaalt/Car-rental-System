@@ -4,60 +4,127 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cruzr · Open‑Source Car Rental & Ride Booking</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <meta name="description" content="Cruzr is an open‑source car rental & ride booking MVP built for learning and contribution." />
   <link rel="stylesheet" href="homepage.css" />
+  <!-- Theme-switch Script -->
+   <script type="text/javascript" src="darkmode.js" defer></script>
 </head>
 <body>
-  <!-- Header -->
+  
   <header>
-    <div class="container nav">
-      <div class="brand" aria-label="Cruzr">
-        <div class="logo" aria-hidden="true">🚗</div>
-        <span>Cruzr</span>
-      </div>
-      <nav class="navlinks" aria-label="Primary">
-        <a href="#">Home</a>
-        <a href="#users">Users</a>
-        <a href="#contributors">Contributors</a>
-        <a class="btn ghost" href="https://github.com/your-org/your-repo" target="_blank" rel="noopener">GitHub</a>
-      </nav>
-    </div>
+     
+    <nav class="navbar">
+        <img src="..\assets\logo.png" alt="Cruzr" class="nav-logo">
+        <nav class="nav">
+            <!-- Theme-Switch -->
+            <button id="theme-switch">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"/></svg>
+        </button>
+        <!-- Theme-switch End -->
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link" href="#booking">Booking</a>
+            <a class="nav-link" href="#">Docs</a>
+            <a class="nav-link" href=../frontend/help.html>Help</a>
+             <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="devs" role="button"data-bs-toggle="dropdown" aria-expanded="false">Contribute</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="devs">
+      <li><a class="dropdown-item" href="https://github.com/ftmaalt/Car-rental-System" target="_blank" rel="noopener">View on GitHub</a></li>
+      <li><a class="dropdown-item" href="#">Development Documents</a></li>
+      <li><a class="dropdown-item" href="#" target="_blank" rel="noopener">Report a Bug</a></li>
+      <li><a class="dropdown-item" href="../frontend/users.html">Get Involved</a></li>
+    </ul>
+  </li>
+        </nav>
+    </nav>
   </header>
 
-  <!-- Hero -->
+ 
   <section class="hero">
     <div class="container wrap">
-      <div>
+        <h1 class="title">Cruzr</h1>
+        <h2 class="subtitle">An Open-source Car Rental & Ride Booking Service</h2>
+        <p class="tagline">A lightweight MVP you can run and extend — built with Python, HTML, and Javascript.</p>
+        <div>
         <div class="pill" aria-label="Project status">
-          <span>MIT Licensed</span> · <span>Alpha · Phase‑1</span>
+          <a class="btn" href="https://opensource.org/license/mit">MIT Licensed</a> · <span> Phase‑1</span>
         </div>
-        <h1 class="title">Open‑Source Car Rental & Ride Booking</h1>
-        <p class="tagline">A lightweight MVP you can run and extend — built with Next.js, Supabase, and Stripe (test).</p>
-        <div class="cta">
-          <a class="btn" href="#users">🚀 Try the Demo</a>
-          <a class="btn ghost" href="https://github.com/your-org/your-repo" target="_blank" rel="noopener">⭐ View on GitHub</a>
-        </div>
+    
       </div>
-      <div class="hero-card" aria-hidden="true">
-        <div class="hero-img">Demo Preview</div>
-        <p class="muted" style="margin:10px 0 0">Swap this area with a real screenshot later.</p>
-      </div>
-    </div>
+    
   </section>
 
-  <!-- Features -->
-  <section>
-    <div class="container">
-      <h2 class="section-title">✨ Features</h2>
-      <div class="grid cols-3">
-        <article class="card"><div class="icon">🔎</div><h3>Search & Filter</h3><p class="muted">Find available cars by date, location, and type.</p></article>
-        <article class="card"><div class="icon">💳</div><h3>Stripe Checkout (Test)</h3><p class="muted">Confirm bookings securely using test cards.</p></article>
-        <article class="card"><div class="icon">📅</div><h3>Manage Bookings</h3><p class="muted">View and cancel your bookings anytime.</p></article>
-        <article class="card"><div class="icon">📍</div><h3>Maps Embed</h3><p class="muted">See pickup locations with Google Maps.</p></article>
-        <article class="card"><div class="icon">📚</div><h3>Open Docs</h3><p class="muted">Clear README, API, and contributor guides.</p></article>
+
+  <section id="features" class="py-5 text-center bg-light">
+  <div class="container">
+    <h2 class="mb-4 fw-bold">✨ Features</h2>
+    <div class="row justify-content-center g-4">
+      
+      <div class="col-md-4">
+        <div class="card h-200 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Search & Filter</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Find cars easily</h6>
+            <p class="card-text">
+              Browse available vehicles by date, type, and location for quick, accurate results.
+            </p>
+          </div>
+        </div>
       </div>
+
+      <div class="col-md-4">
+        <div class="card h-200 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Secure Stripe Payments</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Fast & safe checkout</h6>
+            <p class="card-text">
+              Pay securely using Stripe test mode for a realistic payment experience.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-200 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Manage Bookings</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Stay organized</h6>
+            <p class="card-text">
+              View, extend, or cancel your active bookings anytime through your user dashboard.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-200 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Google Maps Integration</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Find your way</h6>
+            <p class="card-text">
+              Get instant directions to pickup and drop-off points with live map embeds.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-200 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Open Documentation</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Transparent & educational</h6>
+            <p class="card-text">
+              Access our open-source documentation and contributor guides to learn or contribute.
+            </p>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- How it Works -->
   <section>
@@ -168,5 +235,6 @@
       <div><a href="#">Home</a> · <a href="#users">Users</a> · <a href="#contributors">Contributors</a> · <a href="#help">Help</a></div>
     </div>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
