@@ -23,20 +23,8 @@
 />
   <!-- Icons + Theme script (matching index.html) -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-  <script type="text/javascript" src="./darkmode.js" defer>
-(async () => {
-  const center = document.getElementById("nav-center");
-  const loginLink = document.getElementById("login-link");
-  if (!center) return;
+  <script type="text/javascript" src="./darkmode.js" defer></script>
 
-  try {
-    const r = await fetch(`${window.API_BASE}/auth/me`, { credentials: "include" });
-    const { user } = await r.json();
-    // …rest of header logic…
-  } catch(e){}
-})();
-
-  </script>
 
   
 </head>
@@ -57,7 +45,7 @@
       </button>
       <!-- Theme-switch End -->
 
-      <a class="nav-link" href="CarRentalSystem\index.htm">Home</a>
+      <a class="nav-link" href="../index.html">Home</a>
       <a class="nav-link" href="./booking.html">Booking</a>
       <a class="nav-link" href="help.html">Help</a>
       <a class="nav-link" href="contribute.html" id="devs" role="button">Contribute</a>
