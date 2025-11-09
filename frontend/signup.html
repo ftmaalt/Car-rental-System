@@ -84,49 +84,79 @@
     </div>
   </div>
 
-  <script>
-    const API_BASE = "http://127.0.0.1:5000/api";
-    const $msg = document.getElementById("msg");
-    const $goto = document.getElementById("goto-login");
+<script>
+  // Safe global base (no redeclare errors)
+  const API_BASE = window.API_BASE || "http://127.0.0.1:5000/api";
 
-    function showMsg(text, type="info", showLogin=false) {
-      $msg.textContent = text;
-      $msg.className = `msg ${type}`;
-      $msg.style.display = "block";
-      $goto.style.display = showLogin ? "inline-block" : "none";
+  const $msg  = document.getElementById("msg");
+  const $goto = document.getElementById("goto-login");
+
+  // --- Prefill the email box on the signup page (URL > localStorage) ---
+  (function prefillSignupEmail() {
+    const el = document.getElementById('email');
+    if (!el) return;
+    const qs = new URLSearchParams(location.search);
+    const fromQS = qs.get('email');
+    const fromLS = localStorage.getItem('cr_last_email') || localStorage.getItem('cr_user_email');
+    el.value = fromQS || fromLS || el.value || "";
+  })();
+
+  function showMsg(text, type = "info", showLogin = false) {
+    $msg.textContent = text;
+    $msg.className = `msg ${type}`;
+    $msg.style.display = "block";
+    $goto.style.display = showLogin ? "inline-block" : "none";
+  }
+
+  // --- If user clicked Supabase email link and returned here with a hash ---
+  (function handleEmailConfirmRedirect() {
+    const hash = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : "";
+    if (!hash) return;
+    const p = new URLSearchParams(hash);
+
+    if (p.get("error")) {
+      const reason = p.get("error_description") || "Email link is invalid or expired.";
+      showMsg(reason + " You can sign in or request a new email.", "error", true);
+      return;
     }
 
-    (function handleEmailConfirmRedirect() {
-      const hash = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : "";
-      if (!hash) return;
-      const p = new URLSearchParams(hash);
-      if (p.get("error")) {
-        const reason = p.get("error_description") || "Email link is invalid or expired.";
-        showMsg(reason + " You can sign in or request a new email.", "error", true);
-        return;
-      }
-      if (p.get("access_token")) {
-        showMsg("Your email has been verified. Account created successfully! Redirecting to login…", "success", true);
-        setTimeout(() => { window.location.href = "login.html"; }, 1500);
-      }
-    })();
+    if (p.get("access_token")) {
+      // We may not know the email from the hash; keep whatever was used last time
+      const last = localStorage.getItem("cr_last_email") || "";
+      showMsg("Your email has been verified. Account created successfully! Redirecting to login…", "success", true);
+      setTimeout(() => {
+        const url = "login.html" + (last ? `?email=${encodeURIComponent(last)}` : "");
+        window.location.href = url;
+      }, 1500);
+    }
+  })();
 
-    document.getElementById("signup-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim().toLowerCase();
-      const password = document.getElementById("password").value;
+  // --- Submit handler for signup ---
+  document.getElementById("signup-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
+    const name     = document.getElementById("name").value.trim();
+    const email    = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+
+    // Remember the email immediately so login can prefill even if we redirect
+    localStorage.setItem("cr_last_email", email);
+
+    try {
       const res = await fetch(`${API_BASE}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ name, email, password })
       });
+
       const data = await res.json();
 
       if (res.status === 409) {
+        // Already registered — guide to login and preserve email
         showMsg("Your account is already registered. Please sign in.", "info", true);
+        // Make the login button go with the email
+        document.getElementById("goto-login").href = "login.html?email=" + encodeURIComponent(email);
         return;
       }
 
@@ -135,14 +165,24 @@
         return;
       }
 
+      // Most Supabase setups return a “check your email” message for confirm flow
       if (data.message && /check.*email/i.test(data.message)) {
         showMsg("Check your email to confirm your account.", "info", false);
+        // Also expose a quick link to login with email prefilled (optional)
+        $goto.href = "login.html?email=" + encodeURIComponent(email);
+        $goto.style.display = "inline-block";
         return;
       }
 
-      showMsg("Account created successfully!", "success", true);
-    });
-
+      // If API returns success without email confirmation requirement
+      showMsg("Account created successfully! Redirecting…", "success", true);
+      setTimeout(() => {
+        window.location.href = "login.html?email=" + encodeURIComponent(email);
+      }, 800);
+    } catch (err) {
+      showMsg("Network error. Please try again.", "error", false);
+    }
+  });
     // Support FAB logic
     const supportFab = document.getElementById('supportFab');
     const supportOverlay = document.getElementById('supportOverlay');

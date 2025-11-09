@@ -83,44 +83,78 @@
     </div>
   </div>
   <script>
-    // Use a single global if already defined elsewhere to avoid "redeclare" errors
-    const API_BASE = window.API_BASE ? window.API_BASE : "http://127.0.0.1:5000/api";
+  // ===========================
+  // GLOBAL API CONFIG
+  // ===========================
+  const API_BASE = window.API_BASE || "http://127.0.0.1:5000/api";
 
-    document.getElementById("login-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("email").value.trim().toLowerCase();
-      const password = document.getElementById("password").value;
-      const msg = document.getElementById("login-msg");
-      msg.style.display = "none";
-      msg.textContent = "";
 
-      try {
-        const res = await fetch(`${API_BASE}/auth/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ email, password })
-        });
-        const data = await res.json();
+  // ===========================
+  // PREFILL EMAIL FIELD
+  // ===========================
+  (function prefillEmail() {
+    const emailInput = document.getElementById("email");
+    if (!emailInput) return;
 
-        if (!res.ok) {
-          msg.textContent = data.error || "Login failed";
-          msg.style.display = "block";
-          return;
-        }
+    const set = (v) => { if (v && !emailInput.value) emailInput.value = v; };
 
-        // Cache name for instant header render (header will also call /auth/me)
-        const name = (data.user && (data.user.name || data.user.email)) || "";
-        if (name) localStorage.setItem("cr_user_name", name);
+    // 1️⃣ Try reading active session (/auth/me)
+    fetch(`${API_BASE}/auth/me`, { credentials: "include" })
+      .then(r => r.ok ? r.json() : { user: null })
+      .then(d => set(d.user?.email))
+      .catch(() => { /* ignore */ })
+      .finally(() => {
+        // 2️⃣ Read from URL query (?email=...)
+        const qs = new URLSearchParams(location.search);
+        set(qs.get("email"));
 
-        // Go to homepage
-        window.location.href = "../index.html";
-      } catch (err) {
-        msg.textContent = "Network error. Please try again.";
+        // 3️⃣ Read from localStorage (saved after signup/login)
+        set(localStorage.getItem("cr_last_email") || localStorage.getItem("cr_user_email"));
+      });
+  })();
+
+
+  // ===========================
+  // LOGIN FORM HANDLER
+  // ===========================
+  document.getElementById("login-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+    const msg = document.getElementById("login-msg");
+    msg.style.display = "none";
+    msg.textContent = "";
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        msg.textContent = data.error || "Login failed";
         msg.style.display = "block";
+        return;
       }
-    });
 
+      // ✅ Save for future autofill + header
+      const name = (data.user && (data.user.name || data.user.email)) || "";
+      if (name) localStorage.setItem("cr_user_name", name);
+      localStorage.setItem("cr_user_email", email);
+
+      // ✅ Redirect to homepage
+      window.location.href = "../index.html";
+    } catch (err) {
+      console.error("Login error:", err);
+      msg.textContent = "Network error. Please try again.";
+      msg.style.display = "block";
+    }
+  });
      // Support FAB logic
     const supportFab = document.getElementById('supportFab');
     const supportOverlay = document.getElementById('supportOverlay');

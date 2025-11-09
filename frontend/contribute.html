@@ -24,9 +24,57 @@
   <!-- Icons + Theme script (matching index.html) -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <script type="text/javascript" src="./darkmode.js" defer></script>
+<script>
+(function () {
+  window.API_BASE = window.API_BASE || "http://127.0.0.1:5000/api";
+
+  async function loadCurrentUser() {
+    const box   = document.getElementById("user-list");
+    const empty = document.getElementById("no-results");
+    if (!box) return;
+
+    box.innerHTML = `<article class="faq-card"><h3>Loading…</h3></article>`;
+    empty && (empty.style.display = "none");
+
+    let user = null;
+
+    // 1️⃣ Try from server session
+    try {
+      const res = await fetch(`${window.API_BASE}/auth/me`, { credentials: "include" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.user) user = data.user;
+      }
+    } catch (_) {}
+
+    // 2️⃣ Fallback to localStorage
+    if (!user) {
+      const name  = localStorage.getItem("cr_user_name");
+      const email = localStorage.getItem("cr_user_email") || localStorage.getItem("cr_last_email");
+      if (name || email) user = { name, email };
+    }
+
+    // 3️⃣ Render single card
+    box.innerHTML = "";
+    if (user && (user.name || user.email)) {
+      const card = document.createElement("article");
+      card.className = "faq-card";
+      card.innerHTML = `
+        <h3>${user.name || "Unnamed"}</h3>
+        ${user.email ? `<p><a class="email-link" href="mailto:${user.email}">${user.email}</a></p>` : ""}
+      `;
+      box.appendChild(card);
+    } else {
+      empty.style.display = "block";
+      empty.textContent = "Please sign in to see your account details.";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadCurrentUser);
+})();
+</script>
 
 
-  
 </head>
 <body>
   <header>
@@ -63,6 +111,7 @@
     <p>Resources for contributors</p>
       <p> repository, downloads, and issue tracker.</p>
   </section>
+
   <p style="text-align: center;">
        <strong>Want to join us?</strong></p>
     <p style="text-align: center; ">
@@ -73,11 +122,15 @@
 
 
   <!-- contributors list -->
-  <section class="faq-section" aria-label="Registered users">
-    <div class="faq-grid" id="user-list"></div>
-    <div id="no-results" class="no-results" style="display:none;">No users found.</div>
-  </section>
+  <!-- === Logged-in user info === -->
+<section class="current-user-section">
+  <!-- This is where the user info will appear -->
+  <div id="user-list" class="user-card-container" style="display:flex; justify-content:center; margin-top:1rem;">
+  </div>
 
+  <p id="no-results" style="display:none; text-align:center; color:#ccc; margin-top:1rem;"></p>
+</section>
+  <!-- === End logged-in user info === -->
   <!-- Centered resource cards -->
   <section class="resources-center" aria-label="Project resources">
   <div class="resource-cards">
@@ -149,62 +202,7 @@
 
  <!-- ADDED: Users loader + Support modal logic -->
   <script>
-  const API_BASE = "http://127.0.0.1:5000"; // backend origin
 
-  function userCardHTML(u) {
-    const name = u.name || 'Unnamed';
-    const role = u.role ? `<div class="role-badge">${u.role}</div>` : '';
-    const email = u.email ? `<p><a class="email-link" href="mailto:${u.email}">${u.email}</a></p>` : '';
-    return `
-      <h3>${name}</h3>
-      ${role}
-      ${email}
-    `;
-  }
-
-  async function loadUsers() {
-    const list = document.getElementById('user-list');
-    const noResults = document.getElementById('no-results');
-
-    // show lightweight skeleton while loading
-    list.innerHTML = `<article class="faq-card"><h3>Loading…</h3></article>`;
-
-    try {
-      // fetch only developers and code users
-      const res = await fetch(`${API_BASE}/api/contributors`, {
-        mode: 'cors',
-        headers: { 'Accept': 'application/json' }
-      });
-
-      const data = await res.json();
-
-      list.innerHTML = '';
-      if (!res.ok) throw new Error((data && data.error) || `HTTP ${res.status}`);
-      if (!Array.isArray(data) || data.length === 0) {
-        noResults.style.display = 'block';
-        noResults.textContent = 'No contributors found.';
-        return;
-      }
-      noResults.style.display = 'none';
-
-      data.forEach(u => {
-        const card = document.createElement('article');
-        card.className = 'faq-card';
-        card.innerHTML = userCardHTML(u);
-        list.appendChild(card);
-      });
-
-    } catch (err) {
-      console.error('Contributors fetch failed:', err);
-      list.innerHTML = '';
-      noResults.style.display = 'block';
-      noResults.textContent = `Unable to load contributors — ${err.message || err}`;
-    }
-  }
-
-  // run on load
-  loadUsers();
-    
     // Support FAB logic
     const supportFab = document.getElementById('supportFab');
     const supportOverlay = document.getElementById('supportOverlay');
