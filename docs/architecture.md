@@ -100,17 +100,17 @@ backend/
 * **Backend:** Implement Booking API (create & cancel booking).
 * **Hosting/DevOps:** Set up Supabase DB schema & seed data.
 * **Docs:** Write Architecture & API docs (`docs/architecture.md`, `docs/api.md`).
-  ✅ *Delivers:* Contributors page + bookings backend + DB + API docs.
+  ✅ *Delivers:* Contributors page + Booking API + DB + API docs.
 
 ---
 
 **Yusra Husain Haji**
 
-* **Frontend:** Build booking page 
+* **Frontend:** Build Booking page (car rental booking interface).
 * **Backend:** Implement Stripe checkout flow (test mode, success/cancel pages).
 * **Hosting/DevOps:** Configure CI/CD on GitHub (lint + test workflow).
 * **Docs:** Write Contributing Guide + Code of Conduct.
-  ✅ *Delivers:* Users page + payments + CI + guidelines.
+  ✅ *Delivers:* Booking page + payments + CI + guidelines.
 
 ---
 
