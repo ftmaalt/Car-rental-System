@@ -1,6 +1,6 @@
 # docs/architecture.md — System & Flow
 
-## High‑level view
+## High-level view
 
 ```
 [Frontend (HTML/JS/CSS)]  <--fetch JSON-->  [Flask API]  <--->  [Supabase (Auth + Postgres)]
@@ -16,7 +16,7 @@
 ## Auth & session flow
 
 1. **Signup** → backend creates auth user; may send email confirmation.
-2. **Login** → backend verifies credentials and sets an HTTP‑only **session cookie**.
+2. **Login** → backend verifies credentials and sets an HTTP-only **session cookie**.
 3. **/auth/me** → reads cookie, returns `{ user: { name, email } }`.
 4. **Frontend caching**
 
@@ -31,8 +31,8 @@
 
 ## Security notes
 
-* Session cookie is HTTP‑only; frontend cannot read its value (only sends it automatically).
-* Row‑Level Security (RLS) in Postgres (via Supabase) ensures:
+* Session cookie is HTTP-only; frontend cannot read its value (only sends it automatically).
+* Row-Level Security (RLS) in Postgres (via Supabase) ensures:
 
   * A user can only read/update their own user row and bookings.
   * Public read is allowed only for safe resources (e.g., vehicles list), if you enable that.
@@ -44,14 +44,14 @@ frontend/
   index.html             # Home
   login.html             # Sign in (prefill, stores name/email, redirects)
   signup.html            # Create account (prefill; email confirm support)
-  contribute.html        # Shows only the current logged‑in user
+  contribute.html        # Shows only the current logged-in user
   assets/…               # images, css, etc.
 ```
 
 Key JS behaviors (inline per page):
 
 * **login.html**: prefill + POST `/auth/login` + cache name/email.
-* **signup.html**: prefill + POST `/auth/signup`; handles 409 and confirm‑by‑email.
+* **signup.html**: prefill + POST `/auth/signup`; handles 409 and confirm-by-email.
 * **contribute.html**: `GET /auth/me` → render one card; fallback to localStorage.
 
 ## Backend structure
@@ -96,21 +96,21 @@ backend/
 
 **Eman Yaser Alasaadi**
 
-* **Frontend:** Build Users page (resources, downloads, issues link).
+* **Frontend:** Build Contributors page (resources, downloads, issues link).
 * **Backend:** Implement Booking API (create & cancel booking).
 * **Hosting/DevOps:** Set up Supabase DB schema & seed data.
 * **Docs:** Write Architecture & API docs (`docs/architecture.md`, `docs/api.md`).
-  ✅ *Delivers:* Users page + bookings backend + DB + API docs.
+  ✅ *Delivers:* Contributors page + bookings backend + DB + API docs.
 
 ---
 
 **Yusra Husain Haji**
 
-* **Frontend:** Build Contributors page (CoC, guidelines, GitHub links).
+* **Frontend:** Build booking page 
 * **Backend:** Implement Stripe checkout flow (test mode, success/cancel pages).
 * **Hosting/DevOps:** Configure CI/CD on GitHub (lint + test workflow).
 * **Docs:** Write Contributing Guide + Code of Conduct.
-  ✅ *Delivers:* Contributors page + payments + CI + guidelines.
+  ✅ *Delivers:* Users page + payments + CI + guidelines.
 
 ---
 
