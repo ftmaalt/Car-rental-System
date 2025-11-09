@@ -11,7 +11,8 @@
                 --glow-cyan: 0 0 14px rgba(2, 132, 199, 0.25);
                 --border-radius: 12px;
                 --success-color: #16A34A;       
-                --error-color: #DC2626;         
+                --error-color: #DC2626;
+                  
 
 
         }
@@ -253,6 +254,25 @@
             margin-bottom:0.5rem ;
             color: var(--logo-yellow);
         }
+        .featureitem-info h4{
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .featureitem-info h5{
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+             
+        }
+
+        .featureitem-info p{
+            font-size: 1.05rem;
+            color:var(--text-secondary) ;
+            line-height: 2rem;
+            font-weight:600;
+        }
+        
         /* Footer */
         .footer {
             background: var(--nav-gradient);
