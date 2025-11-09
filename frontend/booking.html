@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cruzr | Booking</title>
+
+  <!-- Fonts -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Roboto:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Icons (Lucide) -->
+  <script
+    src="https://unpkg.com/lucide@latest"
+    defer
+  ></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="booking.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar__logo">
+      <span class="topbar__logo-icon" aria-hidden="true">🚗</span>
+      <span class="topbar__logo-text">Cruzr</span>
+    </div>
+    <nav class="topbar__nav">
+      <a href="../index.html">Home</a>
+      <a href="./services.html">Services</a>
+      <a class="active" href="./booking.html">Booking</a>
+      <a href="./payment.html">Payment</a>
+      <a href="./support.html">Support</a>
+      <a href="./profile.html">Profile</a>
+    </nav>
+    <button class="topbar__cta">Book Now</button>
+  </header>
+
+  <main class="page">
+    <section class="page__header">
+      <div class="page__header-content">
+        <h1>Reserve Your Ride</h1>
+        <p>
+          Choose from premium cars or trusted drivers. Customize filters to match
+          your needs and confirm in minutes.
+        </p>
+      </div>
+      <form class="search-bar" id="searchForm">
+        <div class="search-bar__field">
+          <label for="pickupLocation">Pickup Location</label>
+          <input type="text" id="pickupLocation" name="pickupLocation" placeholder="E.g., San Francisco" required />
+        </div>
+        <div class="search-bar__field">
+          <label for="pickupDate">Pickup Date</label>
+          <input type="date" id="pickupDate" name="pickupDate" required />
+        </div>
+        <div class="search-bar__field">
+          <label for="dropoffDate">Drop-off Date</label>
+          <input type="date" id="dropoffDate" name="dropoffDate" required />
+        </div>
+        <button type="submit" class="btn btn--primary">
+          <i data-lucide="search"></i>
+          Search
+        </button>
+      </form>
+    </section>
+
+    <section class="booking">
+      <aside class="filter">
+        <div class="filter__header">
+          <h2>Filters</h2>
+          <button type="button" class="filter__reset" id="resetFilters">
+            <i data-lucide="rotate-ccw"></i>
+            Reset
+          </button>
+        </div>
+
+        <form id="filtersForm" class="filter__form">
+          <div class="filter__group">
+            <span class="filter__label">Vehicle Type</span>
+            <label class="filter__checkbox">
+              <input type="checkbox" name="type" value="SUV" checked />
+              <span>SUV</span>
+            </label>
+            <label class="filter__checkbox">
+              <input type="checkbox" name="type" value="Sedan" checked />
+              <span>Sedan</span>
+            </label>
+            <label class="filter__checkbox">
+              <input type="checkbox" name="type" value="Electric" checked />
+              <span>Electric</span>
+            </label>
+            <label class="filter__checkbox">
+              <input type="checkbox" name="type" value="Luxury" checked />
+              <span>Luxury</span>
+            </label>
+          </div>
+
+          <div class="filter__group">
+            <label for="priceRange" class="filter__label">Price Range (per day)</label>
+            <input type="range" id="priceRange" name="priceRange" min="20" max="250" value="150" />
+            <div class="filter__range-output">
+              <span>Up to</span>
+              <strong id="priceRangeValue">$150</strong>
+            </div>
+          </div>
+
+          <div class="filter__group">
+            <label for="ratingSelect" class="filter__label">Minimum Rating</label>
+            <select id="ratingSelect" name="rating">
+              <option value="0">Any</option>
+              <option value="4.0">4.0+</option>
+              <option value="4.5">4.5+</option>
+              <option value="4.8">4.8+</option>
+            </select>
+          </div>
+
+          <div class="filter__group">
+            <span class="filter__label">Availability</span>
+            <label class="filter__radio">
+              <input type="radio" name="availability" value="all" checked />
+              <span>All</span>
+            </label>
+            <label class="filter__radio">
+              <input type="radio" name="availability" value="available" />
+              <span>Available Now</span>
+            </label>
+          </div>
+        </form>
+      </aside>
+
+      <div class="results" id="results">
+        <!-- Cards will be injected by JS -->
+      </div>
+    </section>
+
+    <section class="booking-steps">
+      <h2>Reserve in Three Simple Steps</h2>
+      <div class="steps">
+        <article class="step-card">
+          <div class="step-card__icon">
+            <i data-lucide="calendar"></i>
+          </div>
+          <h3>Select Dates & Location</h3>
+          <p>Enter pickup/drop-off information to find the best options nearby.</p>
+        </article>
+        <article class="step-card">
+          <div class="step-card__icon">
+            <i data-lucide="car"></i>
+          </div>
+          <h3>Choose Your Ride</h3>
+          <p>Filter by vehicle type, features, and price to fit your journey.</p>
+        </article>
+        <article class="step-card">
+          <div class="step-card__icon">
+            <i data-lucide="credit-card"></i>
+          </div>
+          <h3>Confirm & Drive</h3>
+          <p>Secure payment, receive instant confirmation, and hit the road.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <button class="chat-bubble" aria-label="Open live chat">
+    <i data-lucide="message-circle"></i>
+  </button>
+
+  <template id="bookingCardTemplate">
+    <article class="booking-card">
+      <div class="booking-card__header">
+        <div class="booking-card__image-wrapper">
+          <img class="booking-card__image" alt="" loading="lazy" />
+        </div>
+        <div>
+          <h3 class="booking-card__title"></h3>
+          <div class="booking-card__meta">
+            <span class="booking-card__type"></span>
+            <span class="booking-card__rating"></span>
+          </div>
+        </div>
+        <span class="badge badge--status"></span>
+      </div>
+      <ul class="booking-card__features"></ul>
+      <div class="booking-card__footer">
+        <div class="booking-card__price">
+          <span>from</span>
+          <strong></strong>
+          <span>/day</span>
+        </div>
+        <button class="btn btn--outline">
+          <i data-lucide="clipboard-list"></i>
+          View Details
+        </button>
+        <button class="btn btn--primary">
+          <i data-lucide="check-circle-2"></i>
+          Book Now
+        </button>
+      </div>
+    </article>
+  </template>
+
+  <script src="./js/booking.js" defer></script>
+</body>
+</html>
