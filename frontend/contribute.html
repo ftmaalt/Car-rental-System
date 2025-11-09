@@ -56,19 +56,18 @@
 
     // 3️⃣ Render single card
     box.innerHTML = "";
-    if (user && (user.name || user.email)) {
-      const card = document.createElement("article");
-      card.className = "faq-card";
-      card.innerHTML = `
-        <h3>${user.name || "Unnamed"}</h3>
-        ${user.email ? `<p><a class="email-link" href="mailto:${user.email}">${user.email}</a></p>` : ""}
+     if (user && (user.name || user.email)) {
+     const card = document.createElement("article");
+     card.className = "faq-card";
+     card.innerHTML = `
+      <h3>${user.name || "Unnamed"}</h3>
+     ${user.email ? `<p><a class="email-link" href="mailto:${user.email}">${user.email}</a></p>` : ""}
       `;
-      box.appendChild(card);
-    } else {
+     box.appendChild(card);
+      } else {
       empty.style.display = "block";
-      empty.textContent = "Please sign in to see your account details.";
-    }
-  }
+      empty.textContent = "You are not logged in. Please log in to contribute to our website.";
+      }}
 
   document.addEventListener("DOMContentLoaded", loadCurrentUser);
 })();
