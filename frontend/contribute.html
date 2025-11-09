@@ -72,6 +72,82 @@
   document.addEventListener("DOMContentLoaded", loadCurrentUser);
 })();
 </script>
+<script>
+  // Base URL of your Flask API
+  const API_BASE = window.API_BASE || "http://127.0.0.1:5000/api";
+
+  // Small helper to build the user dropdown
+  function buildUserMenu(name) {
+    const wrap = document.createElement("div");
+    wrap.className = "nav-user";
+    wrap.style.position = "relative";
+
+    wrap.innerHTML = `
+      <button id="nav-user-btn" class="nav-link" type="button"
+              style="display:inline-flex;align-items:center;gap:8px">
+        <span id="nav-user-name">${name}</span>
+        <span style="font-size:.9em">▼</span>
+      </button>
+      <div id="nav-user-dd"
+           style="display:none; position:absolute; right:0; top:120%;
+                  background:#0f2230; color:#fff; padding:10px 12px;
+                  border-radius:10px; box-shadow:0 8px 20px rgba(0,0,0,.25); min-width:160px; z-index:40">
+        <a href="#" id="logout-btn" style="color:#fff; text-decoration:none">Sign out</a>
+      </div>
+    `;
+
+    // open/close
+    const btn = wrap.querySelector("#nav-user-btn");
+    const dd  = wrap.querySelector("#nav-user-dd");
+    btn.addEventListener("click", () => {
+      dd.style.display = dd.style.display === "none" ? "block" : "none";
+    });
+
+    // click outside closes
+    document.addEventListener("click", (e) => {
+      if (!wrap.contains(e.target)) dd.style.display = "none";
+    });
+
+    // logout
+    wrap.querySelector("#logout-btn").addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        await fetch(`${API_BASE}/auth/logout`, { method: "POST", credentials: "include" });
+      } catch {}
+      // clear any cached name/email you kept
+      localStorage.removeItem("cr_user_name");
+      localStorage.removeItem("cr_user_email");
+      // back to login
+      window.location.href = "login.html";
+    });
+
+    return wrap;
+  }
+
+  // Mount the header (replace the Login link if a session exists)
+  (async function mountHeaderAuth() {
+    const loginLink = document.getElementById("nav-login");
+    if (!loginLink) return;                            // nothing to do
+
+    // Ask the API who we are (cookie-based)
+    let user = null;
+    try {
+      const r = await fetch(`${API_BASE}/auth/me`, { credentials: "include" });
+      const d = await r.json();
+      user = d && d.user ? d.user : null;
+    } catch {}
+
+    if (user && user.name) {
+      // swap Login with a [name ▼] dropdown
+      const menu = buildUserMenu(user.name);
+      loginLink.replaceWith(menu);
+    } else {
+      // still show "Login"; also ensure any cached name is cleared
+      localStorage.removeItem("cr_user_name");
+    }
+  })();
+</script>
+
 
 
 </head>
@@ -91,14 +167,14 @@
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"/></svg>
       </button>
       <!-- Theme-switch End -->
-
       <a class="nav-link" href="../index.html">Home</a>
       <a class="nav-link" href="./booking.html">Booking</a>
       <a class="nav-link" href="help.html">Help</a>
       <a class="nav-link" href="contribute.html" id="devs" role="button">Contribute</a>
+       <!-- Give THIS link the id below on every page -->
+      <a class="nav-link" href="login.html" id="nav-login">Login</a>
 
-      <!-- Visible only when logged out -->
-      <a class="nav-link" id="login-link" href="login.html">Login</a>
+
     </nav>
   </nav>
 </header>
