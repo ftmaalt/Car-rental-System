@@ -31,7 +31,7 @@ It is designed to be beginner-friendly, lightweight, and open for public contrib
 - **Help Center**
   - Searchable FAQs with highlight results.
   - Category chips for quick filtering.
-  - Floating Support Button (FAB) → mini contact form (Formspree or mail).
+  - Floating Support Button (FAB) → mini contact form .
 
 - **Announcements**
   - Project news such as feature releases and development updates.
@@ -70,7 +70,7 @@ It is designed to be beginner-friendly, lightweight, and open for public contrib
 
 **Local setup:**
 ```bash
-git clone https://github.com/username/cruzr.git
+git clone https://github.com/ftmaalt/cruzr.git
 cd cruzr/backend
 pip install flask flask-cors
 python booking_api.py
