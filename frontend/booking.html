@@ -6,55 +6,63 @@
   <title>Cruzr | Booking</title>
 
   <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  />
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Roboto:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
     rel="stylesheet"
   />
 
   <!-- Icons (Lucide) -->
-  <script
-    src="https://unpkg.com/lucide@latest"
-    defer
-  ></script>
+  <script src="https://unpkg.com/lucide@latest" defer></script>
 
   <!-- Styles -->
   <link rel="stylesheet" href="./css/booking.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar__logo">
-      <span class="topbar__logo-icon" aria-hidden="true">🚗</span>
-      <span class="topbar__logo-text">Cruzr</span>
-    </div>
-    <nav class="topbar__nav">
-      <a href="../index.html">Home</a>
-      <a href="./services.html">Services</a>
-      <a class="active" href="./booking.html">Booking</a>
-      <a href="./payment.html">Payment</a>
-      <a href="./support.html">Support</a>
-      <a href="./profile.html">Profile</a>
+  <header class="navbar" role="banner">
+    <a class="nav-logo" href="../index.html">
+      <span class="nav-logo__icon" aria-hidden="true">🚗</span>
+      <span class="nav-logo__text">Cruzr</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a class="nav-link" href="../index.html">Home</a>
+      <a class="nav-link" href="./services.html">Services</a>
+      <a class="nav-link active" href="./booking.html" aria-current="page">Booking</a>
+      <a class="nav-link" href="./payment.html">Payment</a>
+      <a class="nav-link" href="./support.html">Support</a>
+      <a class="nav-link" href="./profile.html">Profile</a>
     </nav>
-    <button class="topbar__cta">Book Now</button>
+
+    <div class="nav-actions">
+      <button id="theme-switch" class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle theme">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <a class="join-btn" href="./booking.html">Book Now</a>
+    </div>
   </header>
 
   <main class="page">
     <section class="page__header">
       <div class="page__header-content">
         <h1>Reserve Your Ride</h1>
-        <p>
-          Choose from premium cars or trusted drivers. Customize filters to match
-          your needs and confirm in minutes.
-        </p>
+        <p>Choose from premium cars or trusted drivers. Customize filters to match your needs and confirm in minutes.</p>
       </div>
+
       <form class="search-bar" id="searchForm">
         <div class="search-bar__field">
           <label for="pickupLocation">Pickup Location</label>
@@ -76,7 +84,7 @@
     </section>
 
     <section class="booking">
-      <aside class="filter">
+      <aside class="filter" aria-label="Filter panel">
         <div class="filter__header">
           <h2>Filters</h2>
           <button type="button" class="filter__reset" id="resetFilters">
@@ -86,8 +94,8 @@
         </div>
 
         <form id="filtersForm" class="filter__form">
-          <div class="filter__group">
-            <span class="filter__label">Vehicle Type</span>
+          <fieldset class="filter__group">
+            <legend class="filter__label">Vehicle Type</legend>
             <label class="filter__checkbox">
               <input type="checkbox" name="type" value="SUV" checked />
               <span>SUV</span>
@@ -104,7 +112,7 @@
               <input type="checkbox" name="type" value="Luxury" checked />
               <span>Luxury</span>
             </label>
-          </div>
+          </fieldset>
 
           <div class="filter__group">
             <label for="priceRange" class="filter__label">Price Range (per day)</label>
@@ -125,8 +133,8 @@
             </select>
           </div>
 
-          <div class="filter__group">
-            <span class="filter__label">Availability</span>
+          <fieldset class="filter__group">
+            <legend class="filter__label">Availability</legend>
             <label class="filter__radio">
               <input type="radio" name="availability" value="all" checked />
               <span>All</span>
@@ -135,12 +143,12 @@
               <input type="radio" name="availability" value="available" />
               <span>Available Now</span>
             </label>
-          </div>
+          </fieldset>
         </form>
       </aside>
 
-      <div class="results" id="results">
-        <!-- Cards will be injected by JS -->
+      <div class="results" id="results" aria-live="polite">
+        <!-- Cards injected via JS -->
       </div>
     </section>
 
@@ -151,8 +159,8 @@
           <div class="step-card__icon">
             <i data-lucide="calendar"></i>
           </div>
-          <h3>Select Dates & Location</h3>
-          <p>Enter pickup/drop-off information to find the best options nearby.</p>
+          <h3>Select Dates &amp; Location</h3>
+          <p>Enter pickup and drop-off information to find the best options nearby.</p>
         </article>
         <article class="step-card">
           <div class="step-card__icon">
@@ -165,16 +173,47 @@
           <div class="step-card__icon">
             <i data-lucide="credit-card"></i>
           </div>
-          <h3>Confirm & Drive</h3>
+          <h3>Confirm &amp; Drive</h3>
           <p>Secure payment, receive instant confirmation, and hit the road.</p>
         </article>
       </div>
     </section>
   </main>
 
-  <button class="chat-bubble" aria-label="Open live chat">
+  <button class="chat-bubble" type="button" aria-label="Open live chat">
     <i data-lucide="message-circle"></i>
   </button>
+
+  <footer class="footer">
+    <div class="footer-row">
+      <div class="footer-col">
+        <h4>About Cruzr</h4>
+        <p>Premium rides, trusted drivers, and seamless booking tailored to your itinerary.</p>
+        <a class="join-btn" href="./services.html">Join the Fleet</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul class="links">
+          <li><a href="./services.html">Services</a></li>
+          <li><a href="./support.html">Support</a></li>
+          <li><a href="./profile.html">Account</a></li>
+          <li><a href="../index.html#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <form>
+          <input type="email" placeholder="Enter your email" aria-label="Email" required />
+          <button type="submit">Subscribe</button>
+        </form>
+        <div class="icons" aria-label="Social links">
+          <i data-lucide="twitter"></i>
+          <i data-lucide="instagram"></i>
+          <i data-lucide="linkedin"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <template id="bookingCardTemplate">
     <article class="booking-card">
@@ -182,7 +221,7 @@
         <div class="booking-card__image-wrapper">
           <img class="booking-card__image" alt="" loading="lazy" />
         </div>
-        <div>
+        <div class="booking-card__info">
           <h3 class="booking-card__title"></h3>
           <div class="booking-card__meta">
             <span class="booking-card__type"></span>
@@ -198,14 +237,16 @@
           <strong></strong>
           <span>/day</span>
         </div>
-        <button class="btn btn--outline">
-          <i data-lucide="clipboard-list"></i>
-          View Details
-        </button>
-        <button class="btn btn--primary">
-          <i data-lucide="check-circle-2"></i>
-          Book Now
-        </button>
+        <div class="booking-card__actions">
+          <button class="btn btn--outline">
+            <i data-lucide="clipboard-list"></i>
+            Details
+          </button>
+          <button class="btn btn--primary">
+            <i data-lucide="check-circle-2"></i>
+            Book Now
+          </button>
+        </div>
       </div>
     </article>
   </template>
