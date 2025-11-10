@@ -100,27 +100,7 @@
         overflow: hidden;
          }
 
-         .dropdown-menu {
-            overflow: hidden;
-         width: max-content;       
-         min-width: 14rem;   
-         z-index: 100;    
-        }
-        .dropdown-menu-end {
-            right: 0;
-            left: auto;
-        }
-
-        .dropdown-item{
-            color: var(--text-secondary);
-            font-weight: 500;
-            transition: color 0.3s ease;
-            font-size: 1.6 rem;
-        }
-
-          dropdown-item.active {
-            color: var(--accent-color);
-        }
+        
 /* Styling for theme-switch */
          #theme-switch{
             height: 40px;
