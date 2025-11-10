@@ -74,3 +74,4 @@ git clone https://github.com/username/cruzr.git
 cd cruzr/backend
 pip install flask flask-cors
 python booking_api.py
+python app.py
