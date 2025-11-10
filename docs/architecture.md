@@ -117,10 +117,8 @@ backend/
 **Laila Mahmood Mohammed Haji**
 
 * **Frontend:** Build Help page (FAQ accordion + contact form).
-* **Backend:** Implement Stripe webhook handler (update booking status).
-* **Hosting/DevOps:** Publish Release v0.1.0 on GitHub (downloads + screenshots).
-* **Docs:** Write README, FAQ, and manage Announcements (site + GitHub Discussions).
-  ✅ *Delivers:* Help page + webhook + release + full project docs.
+* **Docs:** Write README, FAQ, code of conduct, conterbuting and manage Announcements (site + GitHub Discussions).
+  ✅ *Delivers:* Help page + full project docs.
 
 ---
 
