@@ -498,3 +498,136 @@
 /* make the logo and theme-switch spaced from the links */
 .nav-logo { margin-right: 8px; }
 #theme-switch { margin-right: 6px; }
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
+        .footer {
+        background: var(--dark-section, #0A1229);
+        color: var(--text-secondary);
+        width: 100%;
+        padding: 4rem 2rem;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 3rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        }
+
+        .footer-col h4 {
+        color: var(--text-primary);
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        }
+
+        .footer-col .links {
+        list-style: none;
+        padding: 0;
+        }
+
+        .footer-col .links li {
+        margin-bottom: 0.6rem;
+        }
+
+        .footer-col .links a {
+        text-decoration: none;
+        color: var(--text-secondary);
+        transition: color 0.2s ease;
+        }
+
+        .footer-col .links a:hover {
+        color: var(--accent-color);
+        }
+
+        .footer-col p {
+        margin: 1rem 0;
+        max-width: 320px;
+        color: var(--text-secondary);
+        }
+
+        .footer-col form {
+        display: flex;
+        gap: 0.5rem;
+        }
+
+        .footer-col input {
+        flex: 1;
+        height: 40px;
+        border-radius: var(--border-radius);
+        border: 1px solid var(--accent-color);
+        background: transparent;
+        color: var(--text-primary);
+        padding-left: 10px;
+        outline: none;
+        }
+
+        .footer-col input::placeholder {
+        color: var(--text-secondary);
+        }
+
+        .footer-col form button {
+        background: var(--accent-color);
+        border: none;
+        color: #012;
+        font-weight: 600;
+        border-radius: var(--border-radius);
+        padding: 0 1rem;
+        cursor: pointer;
+        transition: 0.2s ease;
+        }
+
+        .footer-col form button:hover {
+        filter: brightness(1.1);
+        }
+
+        .footer-col .icons {
+        display: flex;
+        gap: 20px;
+        margin-top: 1.5rem;
+        }
+
+        .footer-col .icons i {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        transition: color 0.2s ease;
+        }
+
+        .footer-col .icons i:hover {
+        color: var(--accent-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+        .footer-row {
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .footer-col form {
+            flex-direction: column;
+        }
+
+        .footer-col form input,
+        .footer-col form button {
+            width: 100%;
+        }
+        }
+        .join-btn {
+        display: inline-block;
+        background: var(--accent-color);
+        color: white;
+        font-weight: 700;
+        text-decoration: none;
+        border-radius: var(--border-radius);
+        padding: 10px 16px;
+        margin-top: 10px;
+        transition: filter 0.2s ease;
+        }
+
+        .join-btn:hover {
+        filter: brightness(1.1);
+        }
