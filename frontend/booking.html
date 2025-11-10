@@ -5,58 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cruzr | Booking</title>
 
-  <!-- Fonts -->
+  <!-- Fonts & Icons (match index) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Icons (Lucide) -->
-  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <!-- Favicon (same as index) -->
+  <link rel="shortcut icon" href="../assets/logo.png" type="image/x-icon">
 
-  <!-- Styles -->
+  <!-- Shared site styles (exact same visual language as Home) -->
+  <link rel="stylesheet" href="./homepage.css" />
+  <!-- Page-specific styles -->
   <link rel="stylesheet" href="booking.css" />
+
+  <!-- Theme switch (same as index) -->
+  <script src="./darkmode.js" defer></script>
+  <!-- Lucide for step/icons on this page -->
+  <script src="https://unpkg.com/lucide@latest" defer></script>
 </head>
+
 <body>
-  <header class="navbar" role="banner">
-    <a class="nav-logo" href="../index.html">
-      <span class="nav-logo__icon" aria-hidden="true">🚗</span>
-      <span class="nav-logo__text">Cruzr</span>
-    </a>
+  <!-- Header / Navbar (copied from index structure) -->
+  <header>
+    <nav class="navbar">
+      <img src="../assets/logo.png" alt="Cruzr" class="nav-logo">
 
-    <nav class="nav" aria-label="Primary">
-      <a class="nav-link" href="../index.html">Home</a>
-      <a class="nav-link" href="./services.html">Services</a>
-      <a class="nav-link active" href="./booking.html" aria-current="page">Booking</a>
-      <a class="nav-link" href="./payment.html">Payment</a>
-      <a class="nav-link" href="./support.html">Support</a>
-      <a class="nav-link" href="./profile.html">Profile</a>
+      <nav class="nav">
+        <!-- Theme Switch (same SVG pair as index) -->
+        <button id="theme-switch" aria-label="Toggle theme">
+          <!-- moon -->
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/></svg>
+          <!-- sun -->
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"/></svg>
+        </button>
+
+        <a class="nav-link" href="../index.html">Home</a>
+        <a class="nav-link active" aria-current="page" href="./booking.html">Booking</a>
+        <a class="nav-link" href="./help.html">Help</a>
+        <a class="nav-link" href="./contribute.html">Contribute</a>
+        <a class="nav-link" href="./login.html">Login</a>
+      </nav>
     </nav>
-
-    <div class="nav-actions">
-      <button id="theme-switch" class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle theme">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79z"></path>
-        </svg>
-      </button>
-      <a class="join-btn" href="./booking.html">Book Now</a>
-    </div>
   </header>
 
   <main class="page">
+    <!-- Page header -->
     <section class="page__header">
       <div class="page__header-content">
         <h1>Reserve Your Ride</h1>
@@ -96,22 +90,10 @@
         <form id="filtersForm" class="filter__form">
           <fieldset class="filter__group">
             <legend class="filter__label">Vehicle Type</legend>
-            <label class="filter__checkbox">
-              <input type="checkbox" name="type" value="SUV" checked />
-              <span>SUV</span>
-            </label>
-            <label class="filter__checkbox">
-              <input type="checkbox" name="type" value="Sedan" checked />
-              <span>Sedan</span>
-            </label>
-            <label class="filter__checkbox">
-              <input type="checkbox" name="type" value="Electric" checked />
-              <span>Electric</span>
-            </label>
-            <label class="filter__checkbox">
-              <input type="checkbox" name="type" value="Luxury" checked />
-              <span>Luxury</span>
-            </label>
+            <label class="filter__checkbox"><input type="checkbox" name="type" value="SUV" checked /><span>SUV</span></label>
+            <label class="filter__checkbox"><input type="checkbox" name="type" value="Sedan" checked /><span>Sedan</span></label>
+            <label class="filter__checkbox"><input type="checkbox" name="type" value="Electric" checked /><span>Electric</span></label>
+            <label class="filter__checkbox"><input type="checkbox" name="type" value="Luxury" checked /><span>Luxury</span></label>
           </fieldset>
 
           <div class="filter__group">
@@ -135,44 +117,30 @@
 
           <fieldset class="filter__group">
             <legend class="filter__label">Availability</legend>
-            <label class="filter__radio">
-              <input type="radio" name="availability" value="all" checked />
-              <span>All</span>
-            </label>
-            <label class="filter__radio">
-              <input type="radio" name="availability" value="available" />
-              <span>Available Now</span>
-            </label>
+            <label class="filter__radio"><input type="radio" name="availability" value="all" checked /><span>All</span></label>
+            <label class="filter__radio"><input type="radio" name="availability" value="available" /><span>Available Now</span></label>
           </fieldset>
         </form>
       </aside>
 
-      <div class="results" id="results" aria-live="polite">
-        <!-- Cards injected via JS -->
-      </div>
+      <div class="results" id="results" aria-live="polite"></div>
     </section>
 
     <section class="booking-steps">
       <h2>Reserve in Three Simple Steps</h2>
       <div class="steps">
         <article class="step-card">
-          <div class="step-card__icon">
-            <i data-lucide="calendar"></i>
-          </div>
+          <div class="step-card__icon"><i data-lucide="calendar"></i></div>
           <h3>Select Dates &amp; Location</h3>
           <p>Enter pickup and drop-off information to find the best options nearby.</p>
         </article>
         <article class="step-card">
-          <div class="step-card__icon">
-            <i data-lucide="car"></i>
-          </div>
+          <div class="step-card__icon"><i data-lucide="car"></i></div>
           <h3>Choose Your Ride</h3>
           <p>Filter by vehicle type, features, and price to fit your journey.</p>
         </article>
         <article class="step-card">
-          <div class="step-card__icon">
-            <i data-lucide="credit-card"></i>
-          </div>
+          <div class="step-card__icon"><i data-lucide="credit-card"></i></div>
           <h3>Confirm &amp; Drive</h3>
           <p>Secure payment, receive instant confirmation, and hit the road.</p>
         </article>
@@ -180,6 +148,7 @@
     </section>
   </main>
 
+  <!-- Support FAB uses the same asset path convention as index -->
   <button class="chat-bubble" type="button" aria-label="Open live chat">
     <i data-lucide="message-circle"></i>
   </button>
@@ -215,6 +184,7 @@
     </div>
   </footer>
 
+  <!-- Card template for JS -->
   <template id="bookingCardTemplate">
     <article class="booking-card">
       <div class="booking-card__header">
@@ -233,19 +203,11 @@
       <ul class="booking-card__features"></ul>
       <div class="booking-card__footer">
         <div class="booking-card__price">
-          <span>from</span>
-          <strong></strong>
-          <span>/day</span>
+          <span>from</span><strong></strong><span>/day</span>
         </div>
         <div class="booking-card__actions">
-          <button class="btn btn--outline">
-            <i data-lucide="clipboard-list"></i>
-            Details
-          </button>
-          <button class="btn btn--primary">
-            <i data-lucide="check-circle-2"></i>
-            Book Now
-          </button>
+          <button class="btn btn--outline"><i data-lucide="clipboard-list"></i>Details</button>
+          <button class="btn btn--primary"><i data-lucide="check-circle-2"></i>Book Now</button>
         </div>
       </div>
     </article>
