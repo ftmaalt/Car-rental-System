@@ -40,7 +40,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"/></svg>
         </button>
 
-        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="../index.html">Home</a>
         <a class="nav-link" href="./booking.html">Booking</a>
         <a class="nav-link" href="help.html">Help</a>
         <a class="nav-link" href="contribute.html" id="devs">Contribute</a>
@@ -84,49 +84,79 @@
     </div>
   </div>
 
-  <script>
-    const API_BASE = "http://127.0.0.1:5000/api";
-    const $msg = document.getElementById("msg");
-    const $goto = document.getElementById("goto-login");
+<script>
+  // Safe global base (no redeclare errors)
+  const API_BASE = window.API_BASE || "http://127.0.0.1:5000/api";
 
-    function showMsg(text, type="info", showLogin=false) {
-      $msg.textContent = text;
-      $msg.className = `msg ${type}`;
-      $msg.style.display = "block";
-      $goto.style.display = showLogin ? "inline-block" : "none";
+  const $msg  = document.getElementById("msg");
+  const $goto = document.getElementById("goto-login");
+
+  // --- Prefill the email box on the signup page (URL > localStorage) ---
+  (function prefillSignupEmail() {
+    const el = document.getElementById('email');
+    if (!el) return;
+    const qs = new URLSearchParams(location.search);
+    const fromQS = qs.get('email');
+    const fromLS = localStorage.getItem('cr_last_email') || localStorage.getItem('cr_user_email');
+    el.value = fromQS || fromLS || el.value || "";
+  })();
+
+  function showMsg(text, type = "info", showLogin = false) {
+    $msg.textContent = text;
+    $msg.className = `msg ${type}`;
+    $msg.style.display = "block";
+    $goto.style.display = showLogin ? "inline-block" : "none";
+  }
+
+  // --- If user clicked Supabase email link and returned here with a hash ---
+  (function handleEmailConfirmRedirect() {
+    const hash = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : "";
+    if (!hash) return;
+    const p = new URLSearchParams(hash);
+
+    if (p.get("error")) {
+      const reason = p.get("error_description") || "Email link is invalid or expired.";
+      showMsg(reason + " You can sign in or request a new email.", "error", true);
+      return;
     }
 
-    (function handleEmailConfirmRedirect() {
-      const hash = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : "";
-      if (!hash) return;
-      const p = new URLSearchParams(hash);
-      if (p.get("error")) {
-        const reason = p.get("error_description") || "Email link is invalid or expired.";
-        showMsg(reason + " You can sign in or request a new email.", "error", true);
-        return;
-      }
-      if (p.get("access_token")) {
-        showMsg("Your email has been verified. Account created successfully! Redirecting to login…", "success", true);
-        setTimeout(() => { window.location.href = "login.html"; }, 1500);
-      }
-    })();
+    if (p.get("access_token")) {
+      // We may not know the email from the hash; keep whatever was used last time
+      const last = localStorage.getItem("cr_last_email") || "";
+      showMsg("Your email has been verified. Account created successfully! Redirecting to login…", "success", true);
+      setTimeout(() => {
+        const url = "login.html" + (last ? `?email=${encodeURIComponent(last)}` : "");
+        window.location.href = url;
+      }, 1500);
+    }
+  })();
 
-    document.getElementById("signup-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim().toLowerCase();
-      const password = document.getElementById("password").value;
+  // --- Submit handler for signup ---
+  document.getElementById("signup-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
+    const name     = document.getElementById("name").value.trim();
+    const email    = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+
+    // Remember the email immediately so login can prefill even if we redirect
+    localStorage.setItem("cr_last_email", email);
+
+    try {
       const res = await fetch(`${API_BASE}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ name, email, password })
       });
+
       const data = await res.json();
 
       if (res.status === 409) {
+        // Already registered — guide to login and preserve email
         showMsg("Your account is already registered. Please sign in.", "info", true);
+        // Make the login button go with the email
+        document.getElementById("goto-login").href = "login.html?email=" + encodeURIComponent(email);
         return;
       }
 
@@ -135,14 +165,24 @@
         return;
       }
 
+      // Most Supabase setups return a “check your email” message for confirm flow
       if (data.message && /check.*email/i.test(data.message)) {
         showMsg("Check your email to confirm your account.", "info", false);
+        // Also expose a quick link to login with email prefilled (optional)
+        $goto.href = "login.html?email=" + encodeURIComponent(email);
+        $goto.style.display = "inline-block";
         return;
       }
 
-      showMsg("Account created successfully!", "success", true);
-    });
-
+      // If API returns success without email confirmation requirement
+      showMsg("Account created successfully! Redirecting…", "success", true);
+      setTimeout(() => {
+        window.location.href = "login.html?email=" + encodeURIComponent(email);
+      }, 800);
+    } catch (err) {
+      showMsg("Network error. Please try again.", "error", false);
+    }
+  });
     // Support FAB logic
     const supportFab = document.getElementById('supportFab');
     const supportOverlay = document.getElementById('supportOverlay');
@@ -164,12 +204,54 @@
     supportMiniForm.addEventListener('submit', e => { e.preventDefault(); alert('Message sent (demo).'); supportMiniForm.reset(); closeSupport(); });
   </script>
 
-  <footer>
-    <div class="container foot">
-      <div><a href="/LICENSE">MIT License</a> · <a href="https://github.com/your-org/your-repo" target="_blank" rel="noopener">GitHub</a></div>
-      <div><a href="../index.html">Home</a> · <a href="#users">Users</a> · <a href="#contributors">Contributors</a> · <a href="./help.html">Help</a></div>
-      <div>© 2025 Cruzr · University Project</div>
+  
+  <!-- Footer -->
+  <footer class="footer">
+  <div class="footer-row">
+    <!-- Info -->
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul class="links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="..\booking.html">Booking</a></li>
+        <li><a href="..\help.html">Help Center</a></li>
+        <li><a href="..\contributors.html">Contributors</a></li>
+      </ul>
     </div>
-  </footer>
+
+    <!-- Explore -->
+    <div class="footer-col">
+      <h4>Info and Docs</h4>
+      <ul class="links">
+        <li><a href="#features">Features and Requirements</a></li>
+        <li><a href="../docs/developer-guidelines.pdf" target="_blank">Developer Guidelines and Documentations</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr" target="_blank">GitHub Repository</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/discussions" target="_blank">Community Forum</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/issues" target="_blank">Report a Bug</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul class="links">
+        <li><a href="../docs/Read-ME.md" target="_blank">About</a></li>
+        <li><a href="../docs/code-of-conduct.pdf" target="_blank">Code of Conduct</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/blob/main/LICENSE" target="_blank">License</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-col">
+      <h4>Discord</h4>
+      <p>Join our server for project news, live updates, and release notes.</p>
+      <form action="#">
+        
+       <a href="https://discord.gg/MjG2sCrS" target="_blank" rel="noopener" class="join-btn">Join Server</a>
+      </form>
+     
+    </div>
+  </div>
+</footer>
 </body>
 </html>

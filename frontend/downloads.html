@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Downloads - Cruzr Car Rental</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
  <!-- Bootstrap (matching index.html) -->
@@ -17,7 +18,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <script type="text/javascript" src="./darkmode.js" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <title>Downloads - Cruzr Car Rental</title>
+   <style>
+    /* small tweaks just for this page */
+    .hero { text-align:center; padding:48px 16px; }
+    .section-title { font-weight:700; font-size:1.6rem; margin:32px 0 12px; text-align:center; }
+     .section-subtitle {
+      text-align: center;
+      opacity: .8;
+      margin: 0 0 18px;
+      font-size: .96rem;
+    }
+
+    .resource-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+      gap:16px;
+      padding: 0 16px 24px;
+      max-width:1100px;
+      margin:0 auto;
+    }
+    .resource-card{
+      display:block; text-decoration:none; border-radius:16px; padding:20px;
+      background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08);
+      transition:transform .15s ease, background .15s ease; color:inherit;
+    }
+    .resource-card:hover{ transform:translateY(-2px); background:rgba(255,255,255,.08);}
+    .card-icon{ width:54px; height:54px; border-radius:50%; display:grid; place-items:center;
+      background:radial-gradient(120px 120px at 30% 30%, #1ee3ff33, #0000); margin-bottom:10px;}
+    .card-icon i{ font-size:22px; }
+    .resource-card h3{ font-size:1.05rem; margin:4px 0 4px; }
+    .resource-card p{ opacity:.8; margin:0;}
+  </style>
 </head>
 <body>
 
@@ -37,7 +68,7 @@
       </button>
       <!-- Theme-switch End -->
 
-      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="../index.html">Home</a>
       <a class="nav-link" href="./booking.html">Booking</a>
       <a class="nav-link" href="help.html">Help</a>
       <a class="nav-link" href="contribute.html" id="devs" role="button">Contribute</a>
@@ -48,157 +79,181 @@
   </nav>
 </header>
 
-
-  <!-- Hero Section -->
-  <section class="hero" aria-labelledby="downloads-title">
-    <h1 id="downloads-title">Project Documents — Downloads</h1>
-    <p>Click a card to download the document as PDF. </p> 
-     <p>These are the organized primary docs: </p> 
-     <p>Resources, Downloads, Issues.</p>
+ <!-- Hero -->
+  <section class="hero">
+    <h1>Project Documents — Downloads</h1>
+    <p>Click a card to download the document as PDF.</p>
   </section>
 
-  <!-- Downloads Section -->
-  <section class="resources-center">
-    <div class="resource-cards" id="downloads"></div>
-  </section>
+  <!-- Development Documents -->
+  <h2 class="section-title">Development Documents</h2>
+  <p class="section-subtitle">Architecture, API surface, issues & more used during implementation.</p>
 
-  <!-- Libraries -->
+  <section class="resource-grid" id="grid-docs"></section>
+
+  <!-- Development Guidelines -->
+  <h2 class="section-title">Development Guidelines</h2>
+  <p class="section-subtitle">How we work together — contributing rules and our code of conduct.</p>
+
+  <section class="resource-grid" id="grid-guides"></section>
+
+  <!-- libs -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script>
-    // Files to expose on the Downloads page (must match docs/ filenames)
-    const files = [
-      "Resources.md",
-      "Downloads.md",
-      "Issues.md",
-      "architecture.md",
-      "api.md",
-      "contributing.md",
-      "code_of_conduct.md"
+    // --- Config -------------------------------------------------------------
+    // Where your markdown lives:
+    const BASE = "https://raw.githubusercontent.com/ftmaalt/Car-rental-System/main/docs/";
+
+    // Group 1: Development Documents
+    const DOC_FILES = [
+      ["Resources",        "Resources.md"],
+      ["Downloads",        "Downloads.md"],
+      ["Issues",           "Issues.md"],
+      ["Architecture",     "architecture.md"],
+      ["API",              "api.md"]
     ];
 
-    // Raw GitHub base for fetching markdown (update if you host docs elsewhere)
-    const baseURL = "https://raw.githubusercontent.com/ftmaalt/Car-rental-System/main/docs/";
+    // Group 2: Development Guidelines
+    const GUIDE_FILES = [
+      ["Contributing",     "contributing.md"],
+      ["Code of Conduct",  "code_of_conduct.md"]
+    ];
 
-    const container = document.getElementById("downloads");
-
-    function makeCard(title, fileName) {
+    // --- UI helpers ---------------------------------------------------------
+    function makeCard([title, file]) {
       const a = document.createElement("a");
       a.className = "resource-card";
       a.href = "#";
-      a.dataset.file = fileName;
+      a.dataset.file = file;
       a.innerHTML = `
         <div class="card-icon"><i class="fa-solid fa-file-pdf"></i></div>
         <h3>${title}</h3>
         <p>Click to download as PDF</p>
       `;
-      a.addEventListener("click", async (e) => {
+      a.addEventListener("click", (e) => {
         e.preventDefault();
-        try {
-          const url = baseURL + encodeURIComponent(fileName);
-          const res = await fetch(url);
-          if (!res.ok) throw new Error("Cannot fetch " + fileName);
-          const md = await res.text();
-          const html = marked.parse(md);
-
-          // Convert simple HTML -> plain text lines for PDF (keeps layout consistent)
-          const tmp = document.createElement('div');
-          tmp.innerHTML = html;
-          const text = tmp.innerText.replace(/\r/g, '');
-          const lines = text.split('\n').map(l => l.trim()).filter(l => l !== '');
-
-          const { jsPDF } = window.jspdf;
-          const doc = new jsPDF({ unit: "pt", format: "a4" });
-          doc.setFont("helvetica", "normal");
-          doc.setFontSize(11);
-          let y = 40;
-          const left = 40;
-          const maxWidth = 515;
-
-          lines.forEach(line => {
-            const splitted = doc.splitTextToSize(line, maxWidth);
-            doc.text(splitted, left, y);
-            y += 14 * splitted.length;
-            if (y > 760) { doc.addPage(); y = 40; }
-          });
-
-          const outName = fileName.replace(/\.md$/i, ".pdf");
-          doc.save(outName);
-        } catch (err) {
-          console.error(err);
-          alert("Failed to convert/download: " + fileName);
-        }
+        downloadAsPdf(file);
       });
       return a;
     }
 
-    // Build UI
-    files.forEach(f => {
-      const title = f.replace(/[_\-]/g, ' ').replace(/\.md$/i, '').replace(/\b\w/g, c => c.toUpperCase());
-      container.appendChild(makeCard(title, f));
-    });
+    async function downloadAsPdf(file) {
+      try {
+        const res = await fetch(BASE + encodeURIComponent(file));
+        if (!res.ok) throw new Error("Cannot fetch " + file);
+        const md = await res.text();
+        const html = marked.parse(md);
+
+        // Simple/robust PDF text render
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        const text = tmp.innerText.replace(/\r/g, '');
+        const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ unit: "pt", format: "a4" });
+        doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+        let y = 40, left = 40, maxW = 515;
+
+        lines.forEach(line => {
+          const parts = doc.splitTextToSize(line, maxW);
+          doc.text(parts, left, y);
+          y += 14 * parts.length;
+          if (y > 760) { doc.addPage(); y = 40; }
+        });
+
+        doc.save(file.replace(/\.md$/i, ".pdf"));
+      } catch (err) {
+        console.error(err);
+        alert("Failed to convert/download: " + file);
+      }
+    }
+
+    // Build the two sections
+    const gridDocs   = document.getElementById("grid-docs");
+    const gridGuides = document.getElementById("grid-guides");
+    DOC_FILES.forEach(item => gridDocs.appendChild(makeCard(item)));
+    GUIDE_FILES.forEach(item => gridGuides.appendChild(makeCard(item)));
   </script>
 
-  <!-- Support FAB + Overlay -->
-<button id="supportFab" class="fab" aria-label="Customer Support">
-  <img src="../assets/customer-support.png" alt="Support">
-</button>
-
-<div id="supportOverlay" class="support-overlay" aria-hidden="true">
-  <div class="support-panel" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
-    <button id="supportClose" class="support-close" aria-label="Close">×</button>
-    <h2 id="supportTitle">Customer Support</h2>
-    <p>Start a chat or send us a message and our support team will get back to you shortly.</p>
-    <form id="supportMiniForm" class="mini-form">
-      <input type="text" name="name" placeholder="Full name" required />
-      <input type="email" name="email" placeholder="Email" required />
-      <textarea name="message" rows="4" placeholder="Write your message..." required></textarea>
-      <button type="submit">Send</button>
-    </form>
-  </div>
-</div>
-
-<script>
-  const supportFab = document.getElementById('supportFab');
-  const supportOverlay = document.getElementById('supportOverlay');
-  const supportClose = document.getElementById('supportClose');
-  const supportMiniForm = document.getElementById('supportMiniForm');
-
-  function openSupport() {
-    supportOverlay.classList.add('open');
-    supportOverlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeSupport() {
-    supportOverlay.classList.remove('open');
-    supportOverlay.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-
-  supportFab.addEventListener('click', openSupport);
-  supportClose.addEventListener('click', closeSupport);
-  supportOverlay.addEventListener('click', e => {
-    if (e.target === supportOverlay) closeSupport();
-  });
-
-  supportMiniForm.addEventListener('submit', e => {
-    e.preventDefault();
-    alert('Message sent (demo).');
-    supportMiniForm.reset();
-    closeSupport();
-  });
-</script>
-
-  <!--footer-->
-   <footer>
-    <div class="container foot">
-      <div><a href="/LICENSE">MIT License</a> · <a href="https://github.com/your-org/your-repo" target="_blank" rel="noopener">GitHub</a></div>
-      <div><a href="../index.html">Home</a> · <a href="#users">Users</a> · <a href="#contributors">Contributors</a> · <a href="./help.html">Help</a></div>
-      <div>© 2025 Cruzr· University Project</div>
+  <!-- Support FAB (unchanged, optional) -->
+  <button id="supportFab" class="fab" aria-label="Customer Support">
+    <img src="../assets/customer-support.png" alt="Support">
+  </button>
+  <div id="supportOverlay" class="support-overlay" aria-hidden="true">
+    <div class="support-panel" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
+      <button id="supportClose" class="support-close" aria-label="Close">×</button>
+      <h2 id="supportTitle">Customer Support</h2>
+      <p>Start a chat or send us a message and our support team will get back to you shortly.</p>
+      <form id="supportMiniForm" class="mini-form">
+        <input type="text"  name="name" placeholder="Full name" required />
+        <input type="email" name="email" placeholder="Email"     required />
+        <textarea name="message" rows="4" placeholder="Write your message..." required></textarea>
+        <button type="submit">Send</button>
+      </form>
     </div>
-  </footer>
+  </div>
+  <script>
+    const supportFab=document.getElementById('supportFab');
+    const supportOverlay=document.getElementById('supportOverlay');
+    const supportClose=document.getElementById('supportClose');
+    const supportMiniForm=document.getElementById('supportMiniForm');
+    function openSupport(){supportOverlay.classList.add('open');supportOverlay.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
+    function closeSupport(){supportOverlay.classList.remove('open');supportOverlay.setAttribute('aria-hidden','true');document.body.style.overflow=''}
+    supportFab.addEventListener('click',openSupport);
+    supportClose.addEventListener('click',closeSupport);
+    supportOverlay.addEventListener('click',e=>{if(e.target===supportOverlay)closeSupport()});
+    supportMiniForm.addEventListener('submit',e=>{e.preventDefault();alert('Message sent (demo).');supportMiniForm.reset();closeSupport()});
+  </script>
+ <!-- Footer -->
+  <footer class="footer">
+  <div class="footer-row">
+    <!-- Info -->
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul class="links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="..\booking.html">Booking</a></li>
+        <li><a href="..\help.html">Help Center</a></li>
+        <li><a href="..\contributors.html">Contributors</a></li>
+      </ul>
+    </div>
 
+    <!-- Explore -->
+    <div class="footer-col">
+      <h4>Info and Docs</h4>
+      <ul class="links">
+        <li><a href="#features">Features and Requirements</a></li>
+        <li><a href="../docs/developer-guidelines.pdf" target="_blank">Developer Guidelines and Documentations</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr" target="_blank">GitHub Repository</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/discussions" target="_blank">Community Forum</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/issues" target="_blank">Report a Bug</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul class="links">
+        <li><a href="../docs/Read-ME.md" target="_blank">About</a></li>
+        <li><a href="../docs/code-of-conduct.pdf" target="_blank">Code of Conduct</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/blob/main/LICENSE" target="_blank">License</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-col">
+      <h4>Discord</h4>
+      <p>Join our server for project news, live updates, and release notes.</p>
+      <form action="#">
+        
+       <a href="https://discord.gg/MjG2sCrS" target="_blank" rel="noopener" class="join-btn">Join Server</a>
+      </form>
+     
+    </div>
+  </div>
+</footer>
 </body>
 </html>

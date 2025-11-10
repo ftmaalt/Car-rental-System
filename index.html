@@ -8,7 +8,7 @@
   <meta name="description" content="Cruzr is an open‑source car rental & ride booking MVP built for learning and contribution." />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <link rel="stylesheet" href="frontend/homepage.css" />
-  <link rel="shortcut icon" href="../assets/logo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="assets/logo.png" type="image/x-icon">
   <!-- Theme-switch Script -->
    <script type="text/javascript" src="frontend/darkmode.js" defer></script>
 </head>
@@ -17,7 +17,7 @@
   <header>
      
     <nav class="navbar">
-        <img src="..\assets\logo.png" alt="Cruzr" class="nav-logo">
+        <img src="assets/logo.png" alt="Cruzr" class="nav-logo">
         <nav class="nav">
             <!-- Theme-Switch -->
             <button id="theme-switch">
@@ -26,18 +26,11 @@
         </button>
         <!-- Theme-switch End -->
             <a class="nav-link active" aria-current="page" href="#">Home</a>
-            <a class="nav-link" href="#booking">Booking</a>
-            <a class="nav-link" href="#">Docs</a>
-            <a class="nav-link" href=../frontend/help.html>Help</a>
-             <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="frontend\contribute.html" id="devs" role="button"data-bs-toggle="dropdown" aria-expanded="false">Contribute</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="devs">
-      <li><a class="dropdown-item" href="https://github.com/ftmaalt/Car-rental-System" target="_blank" rel="noopener">View on GitHub</a></li>
-      <li><a class="dropdown-item" href="#">Development Documents</a></li>
-      <li><a class="dropdown-item" href="#" target="_blank" rel="noopener">Report a Bug</a></li>
-      <li><a class="dropdown-item" href="../frontend/users.html">Get Involved</a></li>
-    </ul>
-  </li>
+            <a class="nav-link" href="frontend/booking.html">Booking</a>
+            <a class="nav-link" href="frontend/help.html">Help</a>
+            <a class="nav-link" href="frontend/contribute.html">Contribute</a>
+            <a class="nav-link"  href="frontend/login.html">Login</a>
+    
         </nav>
     </nav>
   </header>
@@ -50,7 +43,7 @@
         <p class="tagline">A lightweight MVP you can run and extend — built with Python, HTML, and Javascript.</p>
         <div>
         <div class="pill" aria-label="Project status">
-          <a class="btn" href="https://opensource.org/license/mit">MIT Licensed</a> · <span> Phase‑1</span>
+          <a class="btn" href="https://opensource.org/license/mit">MIT Licensed</a> · <span>Phase‑1  · ver 1.0.0</span>
         </div>
     
       </div>
@@ -108,115 +101,300 @@
     </div>
   </div>
  </section>
-  <!-- How it Works -->
-  <section>
-    <div class="container">
-      <h2 class="section-title">🛠 How it Works</h2>
-      <div class="steps">
-        <div class="step"><div class="step-num">1</div><h3>Choose Dates & Type</h3><p class="muted">Pick your trip dates and car category.</p></div>
-        <div class="step"><div class="step-num">2</div><h3>Confirm Details</h3><p class="muted">Review vehicle info and pickup location.</p></div>
-        <div class="step"><div class="step-num">3</div><h3>Pay & Track</h3><p class="muted">Use Stripe test card 4242 4242 4242 4242.</p></div>
+<!-- How it works -->
+<section id="how-it-works">
+  <div class="how-wrapper text-center">
+    <h2 class="how-title">How it works</h2>
+    <div class="how-grid">
+
+      <div class="how-step">
+        <h5 class="step-title">1. Search</h5>
+        <p class="step-text">
+          Search for a car by location, date, and type using our smart filters.
+        </p>
       </div>
+
+      <div class="how-step">
+        <h5 class="step-title">2. Book</h5>
+        <p class="step-text">
+          Add your preferred car to your cart and confirm booking details.
+        </p>
+      </div>
+
+      <div class="how-step">
+        <h5 class="step-title">3. Pickup</h5>
+        <p class="step-text">
+          Select your pickup spot, pay securely, and receive instant confirmation.
+        </p>
+      </div>
+
+      <div class="how-step">
+        <h5 class="step-title">4. Enjoy</h5>
+        <p class="step-text">
+          Track your booking easily, and enjoy a smooth car rental experience.
+        </p>
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>
+
+
+
 
   <!-- Screenshots / Demo -->
-  <section>
-    <div class="container">
-      <h2 class="section-title">📸 Demo Screenshots</h2>
-      <div class="shots">
-        <figure class="shot"><div class="ph" role="img" aria-label="Screenshot placeholder"></div><figcaption>Home & Search</figcaption></figure>
-        <figure class="shot"><div class="ph" role="img" aria-label="Screenshot placeholder"></div><figcaption>Vehicle Details & Map</figcaption></figure>
-        <figure class="shot"><div class="ph" role="img" aria-label="Screenshot placeholder"></div><figcaption>Checkout Success</figcaption></figure>
-      </div>
+<section id="demo">
+  <div class="container">
+    <h2 class="section-title">📸 Demo Screenshots</h2>
+    <div class="shots">
+      <figure class="shot"><div class="ph" role="img" aria-label="Screenshot placeholder"></div><figcaption>Home & Search</figcaption></figure>
+      <figure class="shot"><div class="ph" role="img" aria-label="Screenshot placeholder"></div><figcaption>Vehicle Details & Map</figcaption></figure>
+      <!-- <figure class="shot"><div class="ph" role="img" aria-label="Screenshot placeholder"></div><figcaption>Checkout Success</figcaption></figure> -->
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- Announcements -->
   <section id="announcements">
-    <div class="container">
-      <h2 class="section-title">📢 Recent Announcements</h2>
-      <div class="ann-list">
-        <article class="ann">
-          <h4>Welcome to the project</h4>
-          <div class="date">Oct 4, 2025</div>
-          <p class="muted">Phase‑1 site scaffolding is live.</p>
-        </article>
-        <article class="ann">
-          <h4>Roadmap posted</h4>
-          <div class="date">Oct 6, 2025</div>
-          <p class="muted">Check the GitHub Project board for tasks.</p>
-        </article>
-        <article class="ann">
-          <h4>First release</h4>
-          <div class="date">Oct 13, 2025</div>
-          <p class="muted">v0.1.0: Home, Users, Contributors, Help.</p>
-        </article>
+    <h2 class="section-title">📢 Recent Announcements</h2>
+      <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Cruzr is Live!</h5>
+        <p class="card-text">Cruzr's 1.0.0 version is officially live for beta testing! Explore the website and learn more about our open-source journey!</p>
+        <time class="card-text" datetime="2024-11-09"><small class="text-body-secondary">Posted 9 Nov, 2025</small></time>
+         <h5 class="card-title">Important Announcement Regarding booking and payment</h5>
+         <p class="card-text"> Please note that the payment and checkout features are still under development. You’ll be able to explore and simulate bookings, but actual payment will be temporarily disabled until the integration is complete.
+          If you wish to know more about future updates and implementation, please visit our GitHub repository and join our Discord community for the latest news and discussions.
+         </p>
+        <time class="card-text" datetime="2025-11-09"><small class="text-body-secondary">Posted 9 Nov, 2025</small></time>
       </div>
     </div>
   </section>
 
-  <!-- Users vs Contributors -->
-  <section id="users">
-    <div class="container">
-      <h2 class="section-title">👥 Get Involved</h2>
-      <div class="columns">
-        <div class="box">
-          <h3>For Users</h3>
-          <ul class="list">
-            <li><a href="#">Try the Demo</a></li>
-            <li><a href="https://github.com/your-org/your-repo/releases" target="_blank" rel="noopener">Downloads (Releases)</a></li>
-            <li><a href="https://github.com/your-org/your-repo/issues/new/choose" target="_blank" rel="noopener">Report an Issue</a></li>
-          </ul>
-          <p class="muted">Access resources, view announcements, and report problems.</p>
+
+
+ 
+    <!-- Support FAB + Overlay -->
+    <button id="supportFab" class="fab" aria-label="Customer Support">
+       <img src="assets/customer-support.png" alt="Support">
+    </button>
+
+    <div id="supportOverlay" class="support-overlay" aria-hidden="true">
+        <div class="support-panel" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
+            <button id="supportClose" class="support-close" aria-label="Close">×</button>
+            <h2 id="supportTitle">Customer Support</h2>
+            <p>Start a chat or send us a message and our support team will get back to you shortly.</p>
+            <form id="supportMiniForm" class="mini-form">
+                <input type="text" name="name" placeholder="Full name" required />
+                <input type="email" name="email" placeholder="Email" required />
+                <textarea name="message" rows="4" placeholder="Write your message..." required></textarea>
+                <button type="submit">Send</button>
+            </form>
         </div>
-        <div class="box" id="contributors">
-          <h3>For Contributors</h3>
-          <ul class="list">
-            <li><a href="/CONTRIBUTING.md">Contributing Guide</a></li>
-            <li><a href="/CODE_OF_CONDUCT.md">Code of Conduct</a></li>
-            <li><a href="https://github.com/your-org/your-repo/discussions" target="_blank" rel="noopener">GitHub Discussions</a></li>
-            <li><a href="/docs/architecture.md">Architecture</a> · <a href="/docs/api.md">API</a></li>
-          </ul>
-          <p class="muted">Follow the guidelines and join the community.</p>
-        </div>
-      </div>
     </div>
-  </section>
 
-  <!-- Project Info -->
-  <section>
-    <div class="container">
-      <h2 class="section-title">⚙ Project Info</h2>
-      <div class="badges">
-        <span class="badge">Status: Alpha</span>
-        <span class="badge">License: MIT</span>
-        <span class="badge">Build: Passing</span>
-      </div>
-      <div class="stack">Next.js · Tailwind · Supabase · Stripe (test) · Vercel</div>
-    </div>
-  </section>
 
-  <!-- Help anchor -->
-  <section id="help">
-    <div class="container">
-      <h2 class="section-title">🆘 Need Help?</h2>
-      <p class="muted">Visit the Help page for FAQs or contact us via the form. You can also open a thread in Discussions.</p>
-      <div class="cta" style="margin-top:8px">
-        <a class="btn" href="#help">Open Help</a>
-        <a class="btn ghost" href="https://github.com/your-org/your-repo/discussions" target="_blank" rel="noopener">Open Discussions</a>
-      </div>
-    </div>
-  </section>
 
   <!-- Footer -->
-  <footer>
-    <div class="container foot">
-      <div>© 2025 Team Name · University Project</div>
-      <div><a href="/LICENSE">MIT License</a> · <a href="https://github.com/your-org/your-repo" target="_blank" rel="noopener">GitHub</a></div>
-      <div><a href="#">Home</a> · <a href="#users">Users</a> · <a href="#contributors">Contributors</a> · <a href="#help">Help</a></div>
+  <footer class="footer">
+  <div class="footer-row">
+    <!-- Info -->
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul class="links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="frontend/booking.html">Booking</a></li>
+        <li><a href="frontend/help.html">Help Center</a></li>
+        <li><a href="frontend/contribute.html">Contributors</a></li>
+      </ul>
     </div>
-  </footer>
+
+    <!-- Explore -->
+    <div class="footer-col">
+      <h4>Info and Docs</h4>
+      <ul class="links">
+        <li><a href="https://github.com/ftmaalt/Cruzr/blob/main/docs/Features.md">Features and Requirements</a></li>
+        <li><a href="frontend/downloads.html" target="_blank">Developer Guidelines and Documentations</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr" target="_blank">GitHub Repository</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/discussions" target="_blank">Community Forum</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/issues" target="_blank">Report a Bug</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul class="links">
+        <li><a href="docs/Read-ME.md" target="_blank">About</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/blob/main/docs/CODE_OF_CONDUCT.md" target="_blank">Code of Conduct</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/blob/main/LICENSE" target="_blank">License</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-col">
+      <h4>Discord</h4>
+      <p>Join our server for project news, live updates, and release notes.</p>
+      <form action="#">
+        
+       <a href="https://discord.gg/MjG2sCrS" target="_blank" rel="noopener" class="join-btn">Join Server</a>
+      </form>
+     
+    </div>
+  </div>
+</footer>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script> 
+  // Form submission with mock API delay (guarded - only initialize if form exists)
+        const supportForm = document.getElementById('support-form');
+        if (supportForm) {
+            const submitBtn = supportForm.querySelector('.submit-btn');
+
+            supportForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // Disable submit button and show loading state
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = 'Sending...';
+                }
+
+                // Get form data
+                const formData = new FormData(supportForm);
+                const data = Object.fromEntries(formData.entries());
+
+                // Simulate API call
+                console.log('Submitting form data:', data);
+
+                try {
+                    // Simulate network delay
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    // Show success message
+                    if (submitBtn) {
+                        submitBtn.innerHTML = 'Message Sent!';
+                        submitBtn.style.background = 'var(--success-color)';
+                    }
+
+                    // Reset form
+                    supportForm.reset();
+
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = 'Send Message';
+                            submitBtn.style.background = 'var(--primary-gradient)';
+                        }
+                    }, 2000);
+
+                } catch (error) {
+                    // Handle error
+                    console.error('Error:', error);
+                    if (submitBtn) {
+                        submitBtn.innerHTML = 'Error! Try Again';
+                        submitBtn.style.background = 'var(--error-color)';
+                    }
+
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = 'Send Message';
+                            submitBtn.style.background = 'var(--primary-gradient)';
+                        }
+                    }, 2000);
+                }
+            });
+        } else {
+            // No main support form on this page; avoid blocking JS execution
+            console.warn('No #support-form found; skipping main form initialization.');
+        }
+
+        // Support FAB behavior (guarded)
+        document.addEventListener('DOMContentLoaded', () => {
+            const supportFab = document.getElementById('supportFab');
+            const supportOverlay = document.getElementById('supportOverlay');
+            const supportClose = document.getElementById('supportClose');
+            const supportMiniForm = document.getElementById('supportMiniForm');
+
+            if (!supportFab || !supportOverlay) return; // nothing to do
+
+            function openSupport() {
+                supportOverlay.classList.add('open');
+                supportOverlay.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSupport() {
+                supportOverlay.classList.remove('open');
+                supportOverlay.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
+
+            supportFab.addEventListener('click', openSupport);
+
+            if (supportClose) supportClose.addEventListener('click', closeSupport);
+            supportOverlay.addEventListener('click', (e) => {
+                if (e.target === supportOverlay) closeSupport();
+            });
+
+            if (supportMiniForm) {
+                supportMiniForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formEntries = Object.fromEntries(new FormData(supportMiniForm).entries());
+                    const formData = { ...formEntries, page: window.location.href };
+                    console.log('Support message (sending to Formspree):', formData);
+                    const btn = supportMiniForm.querySelector('button');
+                    if (btn) { btn.disabled = true; btn.innerText = 'Sending...'; }
+
+                    // send to your Formspree endpoint
+                    const FORM_ENDPOINT = 'https://formspree.io/f/myznlojl';
+                    try {
+                        const res = await fetch(FORM_ENDPOINT, {
+                            method: 'POST',
+                            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                            body: JSON.stringify(formData)
+                        });
+
+                        if (res.ok) {
+                            if (btn) { btn.innerText = 'Sent!'; btn.classList.add('success'); }
+                            supportMiniForm.reset();
+                            setTimeout(() => { if (btn) { btn.disabled = false; btn.innerText = 'Send'; btn.classList.remove('success'); } closeSupport(); }, 900);
+                            return;
+                        }
+
+                        // non-OK from Formspree, fall back
+                        console.warn('Formspree returned non-OK status', res.status);
+                    } catch (err) {
+                        console.warn('Error submitting to Formspree, falling back to mailto', err);
+                    }
+
+                    // fallback: open user's mail client
+                    const to = 'Lii.hj323@gmail.com';
+                    const subject = `Cruzr Support Request from ${formData.name || 'Guest'}`;
+                    const bodyLines = [];
+                    bodyLines.push(`Name: ${formData.name || ''}`);
+                    bodyLines.push(`Email: ${formData.email || ''}`);
+                    bodyLines.push('');
+                    bodyLines.push('Message:');
+                    bodyLines.push(formData.message || '');
+                    bodyLines.push('');
+                    bodyLines.push(`Page: ${window.location.href}`);
+                    const body = encodeURIComponent(bodyLines.join('\n'));
+                    const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${body}`;
+                    window.location.href = mailto;
+
+                    // quick UI feedback after fallback
+                    setTimeout(() => {
+                        if (btn) { btn.innerText = 'Sent!'; btn.disabled = false; }
+                        setTimeout(() => { supportMiniForm.reset(); if (btn) btn.innerText = 'Send'; closeSupport(); }, 900);
+                    }, 800);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

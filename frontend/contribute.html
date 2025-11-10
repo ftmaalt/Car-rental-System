@@ -23,22 +23,133 @@
 />
   <!-- Icons + Theme script (matching index.html) -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-  <script type="text/javascript" src="./darkmode.js" defer>
-(async () => {
-  const center = document.getElementById("nav-center");
-  const loginLink = document.getElementById("login-link");
-  if (!center) return;
+  <script type="text/javascript" src="./darkmode.js" defer></script>
+<script>
+(function () {
+  window.API_BASE = window.API_BASE || "http://127.0.0.1:5000/api";
 
-  try {
-    const r = await fetch(`${window.API_BASE}/auth/me`, { credentials: "include" });
-    const { user } = await r.json();
-    // …rest of header logic…
-  } catch(e){}
+  async function loadCurrentUser() {
+    const box   = document.getElementById("user-list");
+    const empty = document.getElementById("no-results");
+    if (!box) return;
+
+    box.innerHTML = `<article class="faq-card"><h3>Loading…</h3></article>`;
+    empty && (empty.style.display = "none");
+
+    let user = null;
+
+    // 1️⃣ Try from server session
+    try {
+      const res = await fetch(`${window.API_BASE}/auth/me`, { credentials: "include" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.user) user = data.user;
+      }
+    } catch (_) {}
+
+    // 2️⃣ Fallback to localStorage
+    if (!user) {
+      const name  = localStorage.getItem("cr_user_name");
+      const email = localStorage.getItem("cr_user_email") || localStorage.getItem("cr_last_email");
+      if (name || email) user = { name, email };
+    }
+
+    // 3️⃣ Render single card
+    box.innerHTML = "";
+     if (user && (user.name || user.email)) {
+     const card = document.createElement("article");
+     card.className = "faq-card";
+     card.innerHTML = `
+      <h3>${user.name || "Unnamed"}</h3>
+     ${user.email ? `<p><a class="email-link" href="mailto:${user.email}">${user.email}</a></p>` : ""}
+      `;
+     box.appendChild(card);
+      } else {
+      empty.style.display = "block";
+      empty.textContent = "You are not logged in. Please log in to contribute to our website.";
+      }}
+
+  document.addEventListener("DOMContentLoaded", loadCurrentUser);
 })();
+</script>
+<script>
+  // Base URL of your Flask API
+  const API_BASE = window.API_BASE || "http://127.0.0.1:5000/api";
 
-  </script>
+  // Small helper to build the user dropdown
+  function buildUserMenu(name) {
+    const wrap = document.createElement("div");
+    wrap.className = "nav-user";
+    wrap.style.position = "relative";
 
-  
+    wrap.innerHTML = `
+      <button id="nav-user-btn" class="nav-link" type="button"
+              style="display:inline-flex;align-items:center;gap:8px">
+        <span id="nav-user-name">${name}</span>
+        <span style="font-size:.9em">▼</span>
+      </button>
+      <div id="nav-user-dd"
+           style="display:none; position:absolute; right:0; top:120%;
+                  background:#0f2230; color:#fff; padding:10px 12px;
+                  border-radius:10px; box-shadow:0 8px 20px rgba(0,0,0,.25); min-width:160px; z-index:40">
+        <a href="#" id="logout-btn" style="color:#fff; text-decoration:none">Sign out</a>
+      </div>
+    `;
+
+    // open/close
+    const btn = wrap.querySelector("#nav-user-btn");
+    const dd  = wrap.querySelector("#nav-user-dd");
+    btn.addEventListener("click", () => {
+      dd.style.display = dd.style.display === "none" ? "block" : "none";
+    });
+
+    // click outside closes
+    document.addEventListener("click", (e) => {
+      if (!wrap.contains(e.target)) dd.style.display = "none";
+    });
+
+    // logout
+    wrap.querySelector("#logout-btn").addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        await fetch(`${API_BASE}/auth/logout`, { method: "POST", credentials: "include" });
+      } catch {}
+      // clear any cached name/email you kept
+      localStorage.removeItem("cr_user_name");
+      localStorage.removeItem("cr_user_email");
+      // back to login
+      window.location.href = "login.html";
+    });
+
+    return wrap;
+  }
+
+  // Mount the header (replace the Login link if a session exists)
+  (async function mountHeaderAuth() {
+    const loginLink = document.getElementById("nav-login");
+    if (!loginLink) return;                            // nothing to do
+
+    // Ask the API who we are (cookie-based)
+    let user = null;
+    try {
+      const r = await fetch(`${API_BASE}/auth/me`, { credentials: "include" });
+      const d = await r.json();
+      user = d && d.user ? d.user : null;
+    } catch {}
+
+    if (user && user.name) {
+      // swap Login with a [name ▼] dropdown
+      const menu = buildUserMenu(user.name);
+      loginLink.replaceWith(menu);
+    } else {
+      // still show "Login"; also ensure any cached name is cleared
+      localStorage.removeItem("cr_user_name");
+    }
+  })();
+</script>
+
+
+
 </head>
 <body>
   <header>
@@ -56,14 +167,14 @@
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"/></svg>
       </button>
       <!-- Theme-switch End -->
-
-      <a class="nav-link" href="CarRentalSystem\index.htm">Home</a>
+      <a class="nav-link" href="../index.html">Home</a>
       <a class="nav-link" href="./booking.html">Booking</a>
       <a class="nav-link" href="help.html">Help</a>
       <a class="nav-link" href="contribute.html" id="devs" role="button">Contribute</a>
+       <!-- Give THIS link the id below on every page -->
+      <a class="nav-link" href="login.html" id="nav-login">Login</a>
 
-      <!-- Visible only when logged out -->
-      <a class="nav-link" id="login-link" href="login.html">Login</a>
+
     </nav>
   </nav>
 </header>
@@ -75,21 +186,38 @@
     <p>Resources for contributors</p>
       <p> repository, downloads, and issue tracker.</p>
   </section>
-  <p style="text-align: center;">
-       <strong>Want to join us?</strong></p>
-    <p style="text-align: center; ">
-       Send your email in the customer support widget (bottom-right)</p>
-    <p style="text-align: center"> 
-      and ask to be added as a <em>Code User</em> or <em>Developer</em>
-    </p>
+
+  <section id="join-section" style="text-align:center; margin-top:2rem;">
+  <h3><strong>Want to join us?</strong></h3>
+  <p>
+    If you’d like to <strong>contribute to the development of Cruzr</strong>, please contact our team
+    in the official project discussion on GitHub:
+  </p>
+  <p style="margin-top:0.5rem;">
+    <a href="https://github.com/ftmaalt/Cruzr/discussions" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       style="color:#00bfff; font-weight:600; text-decoration:none;">
+      👉 Join the Cruzr Discussions on GitHub
+    </a>
+  </p>
+  <p style="margin-top:1rem; color:#ccc; font-size:0.9rem;">
+    Share your ideas, report issues, or collaborate with our open-source contributors.
+  </p>
+</section>
+
 
 
   <!-- contributors list -->
-  <section class="faq-section" aria-label="Registered users">
-    <div class="faq-grid" id="user-list"></div>
-    <div id="no-results" class="no-results" style="display:none;">No users found.</div>
-  </section>
+  <!-- === Logged-in user info === -->
+<section class="current-user-section">
+  <!-- This is where the user info will appear -->
+  <div id="user-list" class="user-card-container" style="display:flex; justify-content:center; margin-top:1rem;">
+  </div>
 
+  <p id="no-results" style="display:none; text-align:center; color:#ccc; margin-top:1rem;"></p>
+</section>
+  <!-- === End logged-in user info === -->
   <!-- Centered resource cards -->
   <section class="resources-center" aria-label="Project resources">
   <div class="resource-cards">
@@ -161,62 +289,7 @@
 
  <!-- ADDED: Users loader + Support modal logic -->
   <script>
-  const API_BASE = "http://127.0.0.1:5000"; // backend origin
 
-  function userCardHTML(u) {
-    const name = u.name || 'Unnamed';
-    const role = u.role ? `<div class="role-badge">${u.role}</div>` : '';
-    const email = u.email ? `<p><a class="email-link" href="mailto:${u.email}">${u.email}</a></p>` : '';
-    return `
-      <h3>${name}</h3>
-      ${role}
-      ${email}
-    `;
-  }
-
-  async function loadUsers() {
-    const list = document.getElementById('user-list');
-    const noResults = document.getElementById('no-results');
-
-    // show lightweight skeleton while loading
-    list.innerHTML = `<article class="faq-card"><h3>Loading…</h3></article>`;
-
-    try {
-      // fetch only developers and code users
-      const res = await fetch(`${API_BASE}/api/contributors`, {
-        mode: 'cors',
-        headers: { 'Accept': 'application/json' }
-      });
-
-      const data = await res.json();
-
-      list.innerHTML = '';
-      if (!res.ok) throw new Error((data && data.error) || `HTTP ${res.status}`);
-      if (!Array.isArray(data) || data.length === 0) {
-        noResults.style.display = 'block';
-        noResults.textContent = 'No contributors found.';
-        return;
-      }
-      noResults.style.display = 'none';
-
-      data.forEach(u => {
-        const card = document.createElement('article');
-        card.className = 'faq-card';
-        card.innerHTML = userCardHTML(u);
-        list.appendChild(card);
-      });
-
-    } catch (err) {
-      console.error('Contributors fetch failed:', err);
-      list.innerHTML = '';
-      noResults.style.display = 'block';
-      noResults.textContent = `Unable to load contributors — ${err.message || err}`;
-    }
-  }
-
-  // run on load
-  loadUsers();
-    
     // Support FAB logic
     const supportFab = document.getElementById('supportFab');
     const supportOverlay = document.getElementById('supportOverlay');
@@ -243,14 +316,54 @@
     loadUsers();
   </script>
 
- <!-- Footer -->
-  <footer>
-    <div class="container foot">
-      <div><a href="/LICENSE">MIT License</a> · <a href="https://github.com/your-org/your-repo" target="_blank" rel="noopener">GitHub</a></div>
-      <div><a href="../index.html">Home</a> · <a href="#users">Users</a> · <a href="#contributors">Contributors</a> · <a href="./help.html">Help</a></div>
-      <div>© 2025 Cruzr· University Project</div>
+  <!-- Footer -->
+  <footer class="footer">
+  <div class="footer-row">
+    <!-- Info -->
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul class="links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="..\booking.html">Booking</a></li>
+        <li><a href="..\help.html">Help Center</a></li>
+        <li><a href="..\contributors.html">Contributors</a></li>
+      </ul>
     </div>
-  </footer>
+
+    <!-- Explore -->
+    <div class="footer-col">
+      <h4>Info and Docs</h4>
+      <ul class="links">
+        <li><a href="#features">Features and Requirements</a></li>
+        <li><a href="../docs/developer-guidelines.pdf" target="_blank">Developer Guidelines and Documentations</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr" target="_blank">GitHub Repository</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/discussions" target="_blank">Community Forum</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/issues" target="_blank">Report a Bug</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul class="links">
+        <li><a href="../docs/Read-ME.md" target="_blank">About</a></li>
+        <li><a href="../docs/code-of-conduct.pdf" target="_blank">Code of Conduct</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/blob/main/LICENSE" target="_blank">License</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-col">
+      <h4>Discord</h4>
+      <p>Join our server for project news, live updates, and release notes.</p>
+      <form action="#">
+        
+       <a href="https://discord.gg/MjG2sCrS" target="_blank" rel="noopener" class="join-btn">Join Server</a>
+      </form>
+     
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>

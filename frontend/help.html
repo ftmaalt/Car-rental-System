@@ -5,417 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Center - Cruzr Car Rental</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-gradient: linear-gradient(180deg, #0A1229 0%, #164E63 100%);
-            --nav-gradient: linear-gradient(90deg, #0A1229 0%, #164E63 100%);
-            --surface-color: rgba(255, 255, 255, 0.1);
-            --text-primary: #FFFFFF;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --accent-color: #22D3EE;
-            --logo-yellow: #FFC600;
-            --logo-yellow-shadow: rgba(255,198,0,0.22);
-            --dark-section: #071229;
-            --border-radius: 12px;
-            --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.3);
-            --success-color: #10B981;
-            --error-color: #EF4444;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        body {
-            background: var(--primary-gradient);
-            color: var(--text-primary);
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-
-        /* Navbar Styles */
-        .navbar {
-            position: sticky;
-            top: 0;
-            background: var(--nav-gradient);
-            padding: 1rem 2rem;
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-logo {
-            height: 40px;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link.active {
-            color: var(--accent-color);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--text-primary);
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: var(--primary-gradient);
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .logo-dot {
-            color: var(--logo-yellow);
-            margin-left: 6px;
-        }
-
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .search-container {
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .search-bar {
-            width: 100%;
-            padding: 1rem 3rem;
-            border-radius: var(--border-radius);
-            border: 2px solid var(--accent-color);
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-            font-size: 1rem;
-            box-shadow: var(--glow-cyan);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--accent-color);
-        }
-
-        .category-chips {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .chip {
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .chip:hover {
-            background: var(--accent-color);
-            color: var(--text-primary);
-            box-shadow: var(--glow-cyan);
-        }
-
-        /* FAQ Section */
-        /* Make the FAQ section full-bleed while keeping cards centered inside a constrained grid */
-        .faq-section {
-            /* full-bleed trick: span the entire viewport width */
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
-            background: var(--dark-section);
-            padding-top: 36px;
-            padding-bottom: 48px;
-            padding-left: 5%;
-            padding-right: 5%;
-            border-radius: 0; /* keep section flush with edges */
-        }
-
-        .faq-grid {
-            max-width: 1100px; /* constrain the cards area */
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            padding: 1rem 0;
-            justify-items: center; /* center cards within the grid cells */
-            width: 100%;
-        }
-
-        .faq-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgb(34, 211, 238);
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-            width: 100%;
-            max-width: 420px; /* keep cards a comfortable readable width */
-            min-height: 160px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .faq-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 8px 40px rgb(34, 211, 238); /* logo-yellow glow */
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .faq-card h3 {
-            color: var(--accent-color);
-            margin-bottom: 0.75rem;
-            font-size: 1.05rem;
-            line-height: 1.3;
-            font-weight: 600;
-        }
-
-        .faq-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-top: 8px;
-            opacity: 1; /* visible by default for clarity */
-            transform: none;
-            transition: none;
-        }
-
-        .category-label {
-            font-size: 0.78rem;
-            color: #FFC600; /* small yellow label to match logo */
-            text-transform: uppercase;
-            margin-bottom: 0.45rem;
-            letter-spacing: 0.6px;
-            opacity: 0.95;
-        }
-
-
-
-        /* Footer */
-        .footer {
-            background: var(--nav-gradient);
-            padding: 2rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .footer-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-link:hover {
-            color: var(--accent-color);
-        }
-
-        /* Search Results Styling */
-        .no-results {
-            color: var(--logo-yellow);
-            text-align: center;
-            padding: 2rem;
-            background: transparent;
-            border-radius: var(--border-radius);
-            margin: 2rem 0;
-        }
-
-        mark {
-            background: rgba(34, 211, 238, 0.2);
-            color: var(--accent-color);
-            padding: 0 2px;
-            border-radius: 2px;
-        }
-
-        /* Form Feedback */
-        .submit-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .submit-btn.success {
-            background: var(--success-color);
-        }
-
-        .submit-btn.error {
-            background: var(--error-color);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 1rem;
-            }
-
-            .nav-menu {
-                gap: 1rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .category-chips {
-                flex-wrap: wrap;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .footer-links {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-
-        /* Support FAB & Panel */
-
-        /* FAB with yellow glow + entrance animation */
-        .fab {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: var(--accent-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.45), 0 0 18px var(--logo-yellow-shadow);
-            border: none;
-            cursor: pointer;
-            z-index: 2200;
-            transform: translateY(8px) scale(0.95);
-            opacity: 0;
-            animation: fabIn 420ms cubic-bezier(.2,.9,.3,1) forwards 120ms;
-        }
-
-        .fab:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.5), 0 0 26px var(--logo-yellow-shadow); transform: translateY(0) scale(1); }
-
-        .fab img { width: 60%; height: 60%; object-fit: contain; filter: brightness(0) invert(1); }
-
-        @keyframes fabIn {
-            to { transform: translateY(0) scale(1); opacity: 1; }
-        }
-
-        /* Support overlay/panel animations */
-        .support-overlay {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.0);
-            z-index: 2100;
-            pointer-events: none;
-            visibility: hidden;
-            opacity: 0;
-            transition: background 220ms ease, opacity 220ms ease;
-            backdrop-filter: blur(0px);
-        }
-
-        .support-overlay.open {
-            background: rgba(0,0,0,0.35);
-            pointer-events: auto;
-            visibility: visible;
-            opacity: 1;
-            backdrop-filter: blur(6px);
-        }
-
-        .support-panel {
-            width: 420px;
-            max-width: 92%;
-            background: linear-gradient(180deg, #081426, #0b2230);
-            border-radius: 12px;
-            padding: 20px 20px 24px 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-            color: var(--text-primary);
-            position: relative;
-            border: 1px solid rgba(255,255,255,0.04);
-            transform: translateY(-8px) scale(0.96);
-            opacity: 0;
-            transition: transform 220ms cubic-bezier(.2,.9,.3,1), opacity 220ms ease;
-        }
-
-        .support-overlay.open .support-panel {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-        }
-
-        .support-close { position: absolute; right: 12px; top: 10px; background: none; border: none; color: var(--text-secondary); font-size: 22px; cursor: pointer; }
-
-        .support-panel h2 { margin: 0 0 8px 0; color: var(--logo-yellow); font-size: 1.25rem; }
-
-        .support-panel p { color: var(--text-secondary); margin-bottom: 12px; }
-
-        .support-panel .mini-form input, .support-panel .mini-form textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); color: var(--text-primary); margin-bottom: 10px; }
-
-        .support-panel .mini-form button { width: 100%; padding: 10px; border-radius: 8px; border: none; background: var(--accent-color); color: #012; font-weight: 700; cursor: pointer; }
-    </style>
+    <link rel="stylesheet" href="help.css">
+    <link rel="shortcut icon" href="../assets/logo.png" type="image/x-icon">
+  <!-- Theme-switch Script -->
+   <script type="text/javascript" src="darkmode.js" defer></script>
 </head>
 <body>
-      <!-- Navbar -->
+  <header>
+     
     <nav class="navbar">
-        <img src="..\assets\logo.png" alt="Cruzr" class="nav-logo">
-        <div class="nav-menu">
-            <a href="homepage.html" class="nav-link">Home</a>
-            <a href="#" class="nav-link">Booking</a>
-            <a href="#" class="nav-link">Insurance</a>
-            <a href="help.html" class="nav-link">Help</a>
-        <a class="nav-link" href="contribute.html" id="devs" role="button" data-bs-toggle="dropdown" aria-expanded="false">Contribute</a>
-        </div>
+        <img src="../assets/logo.png" alt="Cruzr" class="nav-logo">
+        <nav class="nav">
+            <!-- Theme-Switch -->
+            <button id="theme-switch">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"/></svg>
+        </button>
+            <!-- Theme-switch End -->
+            <a class="nav-link" aria-current="page" href="../index.html">Home</a>
+            <a class="nav-link" href="booking.html">Booking</a>
+            <a class="nav-link active" href="help.html">Help</a>
+            <a class="nav-link" href="contribute.html">Contribute</a>
+            <a class="nav-link" href="login.html">Login</a>
+        </nav>
     </nav>
-
+  </header>
     <!-- Hero Section -->
     <section class="hero">
         <h1>We're here to <span class="logo-dot">help.</span></h1>
@@ -456,6 +70,53 @@
             </form>
         </div>
     </div>
+     <footer class="footer">
+  <div class="footer-row">
+    <!-- Info -->
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul class="links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="frontend/booking.html">Booking</a></li>
+        <li><a href="frontend/help.html">Help Center</a></li>
+        <li><a href="frontend/contribute.html">Contributors</a></li>
+      </ul>
+    </div>
+
+    <!-- Explore -->
+    <div class="footer-col">
+      <h4>Info and Docs</h4>
+      <ul class="links">
+        <li><a href="https://github.com/ftmaalt/Cruzr/blob/main/docs/Features.md">Features and Requirements</a></li>
+        <li><a href="frontend/downloads.html" target="_blank">Developer Guidelines and Documentations</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr" target="_blank">GitHub Repository</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/discussions" target="_blank">Community Forum</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/issues" target="_blank">Report a Bug</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul class="links">
+        <li><a href="docs/Read-ME.md" target="_blank">About</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/blob/main/docs/CODE_OF_CONDUCT.md" target="_blank">Code of Conduct</a></li>
+        <li><a href="https://github.com/ftmaalt/Cruzr/blob/main/LICENSE" target="_blank">License</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-col">
+      <h4>Discord</h4>
+      <p>Join our server for project news, live updates, and release notes.</p>
+      <form action="#">
+        
+       <a href="https://discord.gg/MjG2sCrS" target="_blank" rel="noopener" class="join-btn">Join Server</a>
+      </form>
+     
+    </div>
+  </div>
+</footer>
 
     <script>
         // Load FAQ data from faq.json
@@ -685,4 +346,5 @@
         });
     </script>
 </body>
+
 </html>

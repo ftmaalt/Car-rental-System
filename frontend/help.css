@@ -1,7 +1,6 @@
-
-   :root {
-                --primary-gradient: linear-gradient(180deg, #F9FAFB 0%, #E8F3F9 100%);
-                --nav-gradient: linear-gradient(90deg, #E8F3F9 0%, #D9E8EF 100%);
+:root {
+    --primary-gradient: linear-gradient(180deg, #F9FAFB 0%, #E8F3F9 100%);
+            --nav-gradient: linear-gradient(90deg, #E8F3F9 0%, #D9E8EF 100%);
                 --surface-color: rgba(0, 0, 0, 0.05);
                 --dark-section: #FFFFFF;
                 --text-primary: #0A1229;
@@ -57,6 +56,8 @@
             color: var(--text-primary);
             min-height: 100vh;
             line-height: 1.6;
+            /* push page content below the fixed navbar to avoid clipping */
+            padding-top: 72px; /* matches navbar height + a small buffer */
         }
 
         /* Navbar Styles */
@@ -146,308 +147,255 @@
             display: block;
          }
 
-/* End of Theme-switch style */
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--text-primary);
-        }
-
+/* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa */
+/* Hero Section */
         .hero {
-        background: var(--primary-gradient);
-        text-align: center;
-        padding: 6rem 1rem;
-        color: var(--text-primary);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+            text-align: center;
+            padding: 6rem 1rem 2rem; /* match index spacing so header doesn't overlap */
+            background: var(--primary-gradient);
         }
 
+        /* constrain hero content to same width as index */
         .hero .wrap {
-        max-width: 900px;
-        margin: 0 auto;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .hero .title {
-        font-size: 4rem;
-        font-weight: 900;
-        letter-spacing: 2px;
-        margin-bottom: 0.5rem;
-        color: var(--logo-yellow);
-        
-        }
-        .hero .subtitle {
-        font-size: 1.6rem;
-        font-weight: 600;
-        color: var(--text-primary);
-        margin-bottom: 0;
-        }
-
-       
-        .hero .tagline {
-        font-size: 1.1rem;
-        color: var(--text-secondary);
-        max-width: 700px;
-        margin: 0 auto 2rem;
-        line-height: 1.6;
-        }
-
-        
-        .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 0.6rem 0rem;
-        font-size: 0.95rem;
-        
-        transition: all 0.3s ease;
-        }
-
-        
-
-        
-        .pill .btn {
-        color: var(--text-primary);
-        text-decoration: none;
-        font-weight: 600;
-        background: transparent;
-        border: none;
-        font-size: 1rem;
-        transition: color 0.3s ease;
-        }
-
-        .pill .btn:hover {
-        color: var(--logo-yellow);
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
 
         .logo-dot {
             color: var(--logo-yellow);
             margin-left: 6px;
         }
-         #features{
-            transition: all 0.2s ease-in;
-            background-color:transparent;
-            box-shadow: none;
-            border-radius: 0;
-            padding: 5rem 0;
-         }
 
-         .container{
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-         }
-         .features-top, .features-container{
-            padding: 0 1.5 rem;
-         }
-         .features-top h1{
-            font-size: 2rem;
-            font-weight: 800;
-            font-size: 2rem;
-            margin: 1rem;
-            line-height: 1.2;
-            text-align: center;
-            color:var(--text-primary);
-         }
-         .features-container{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-         }
-
-         .feature-item{
-            padding: 0.5rem;
-            margin: 1rem;
-            text-align: center;
-
-         }
-         .features-container .feature-item:last-child {
-            grid-column: 1 / -1;        
-            justify-self: center;     
-        }
-        .feature-item span{
-            font-size: 3.5rem;
-            margin-bottom:0.5rem ;
-            color: var(--logo-yellow);
-        }
-        .featureitem-info h4{
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-        .featureitem-info h5{
-                font-size: 1.1rem;
-                color: var(--text-secondary);
-             
-        }
-
-        .featureitem-info p{
-                font-size: 1.05rem;
-                color:var(--text-secondary) ;
-                line-height: 2rem;
-                font-weight:600;
-        }
-
-        #how-it-works {
-            padding: 4rem 1.5rem;
-            border: radius 0;
-            background: transparent;
-        }
-
-        .how-wrapper {
-            max-width: 1100px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .how-title {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
-        }
-
-        .how-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .how-step {
-            border-radius:0;
-            padding: 1.5rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .how-step:hover {
-            transform: translateY(-4px);
-           
-        }
-
-        .step-title {
+        .hero p {
+            color: var(--text-secondary);
             font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--logo-yellow);
-            margin-bottom: 0.5rem;
-        }
-
-        .step-text {
-            color: var(--text-secondary);
-            font-weight: 500;
-            line-height: 1.6;
-        }
-
-        /* Responsive tweak */
-        @media (max-width: 768px) {
-        .how-title {
-            font-size: 1.6rem;
-        }
-        .how-step {
-            padding: 1rem;
-        }
-        }
-
-
-        /* demo section */
-        #demo section{
-            background: transparent;
-            box-shadow: none;
-            border-radius: 0;
-            padding: 4rem 1.5rem;
-        }
-        
-        #demo .section-title{
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--text-primary);
             margin-bottom: 2rem;
-            text-align: center;
         }
-        #demo .shots {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-            max-width: 1100px;
+
+        .search-container {
+            max-width: 600px;
             margin: 0 auto;
+            position: relative;
         }
-        #demo .shot {
-            background: var(--surface-color);
-            border: 1px solid var(--accent-color);
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem 3rem;
             border-radius: var(--border-radius);
-            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            text-align: center;
+            border: 2px solid var(--accent-color);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 1rem;
+            box-shadow: var(--glow-cyan);
         }
-        #demo .shot:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(2,132,199,0.15);
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-color);
         }
-        #demo .ph {
-            height: 220px;
-            background: rgba(255,255,255,0.08);
-            border-bottom: 1px solid var(--accent-color);
-            border-top-left-radius: var(--border-radius);
-            border-top-right-radius: var(--border-radius);
+
+        .category-chips {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
         }
-        #demo figcaption {
-            padding: 12px;
+
+        .chip {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
             color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chip:hover {
+            background: var(--accent-color);
+            color: var(--text-primary);
+            box-shadow: var(--glow-cyan);
+        }
+
+        /* FAQ Section */
+        /* Make the FAQ section full-bleed while keeping cards centered inside a constrained grid */
+        .faq-section {
+            /* full-bleed trick: span the entire viewport width */
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            background: var(--dark-section);
+            padding-top: 36px;
+            padding-bottom: 48px;
+            padding-left: 5%;
+            padding-right: 5%;
+            border-radius: 0; /* keep section flush with edges */
+        }
+
+        .faq-grid {
+            max-width: 1100px; /* constrain the cards area */
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            padding: 1rem 0;
+            justify-items: center; /* center cards within the grid cells */
+            width: 100%;
+        }
+
+        .faq-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgb(34, 211, 238);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+            width: 100%;
+            max-width: 420px; /* keep cards a comfortable readable width */
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 40px rgb(34, 211, 238); /* logo-yellow glow */
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .faq-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+            line-height: 1.3;
             font-weight: 600;
         }
 
-
-        /* Announcements Section */
-       #announcements {
-            padding: 3rem 2rem;
-            margin: 0 auto;
-            max-width: 900px;
-        }
-
-       
-       #announcements .card {
-            background: transparent;
-            border: none;
-            box-shadow: none;
-            
+        .faq-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-top: 8px;
+            opacity: 1; /* visible by default for clarity */
+            transform: none;
             transition: none;
         }
 
-     
+        .category-label {
+            font-size: 0.78rem;
+            color: #FFC600; /* small yellow label to match logo */
+            text-transform: uppercase;
+            margin-bottom: 0.45rem;
+            letter-spacing: 0.6px;
+            opacity: 0.95;
+        }
 
-        
-        #announcements .card-body {
+
+
+        /* Footer */
+        .footer {
+            background: var(--nav-gradient);
             padding: 2rem;
-            text-align: left; 
+            margin-top: 4rem;
         }
 
-        
-        #announcements .card-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        #announcements .card-text {
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-link {
             color: var(--text-secondary);
-            font-weight: 500;
-            line-height: 1.6;
-            text-indent: 1rem; /* gentle paragraph indent */
-            margin-bottom: 1rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
 
-        /* Date style */
-        #announcements time {
-            display: block;
-            margin-top: 1rem;
-            padding-left: 1rem; 
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            opacity: 0.8;
+        .footer-link:hover {
+            color: var(--accent-color);
         }
 
- /* Support FAB & Panel */
+        /* Search Results Styling */
+        .no-results {
+            color: var(--logo-yellow);
+            text-align: center;
+            padding: 2rem;
+            background: transparent;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+        }
+
+        mark {
+            background: rgba(34, 211, 238, 0.2);
+            color: var(--accent-color);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        /* Form Feedback */
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .submit-btn.success {
+            background: var(--success-color);
+        }
+
+        .submit-btn.error {
+            background: var(--error-color);
+        }
+
+        /* Responsive Design
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .category-chips {
+                flex-wrap: wrap;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        } */
+
+        /* Support FAB & Panel */
 
         /* FAB with yellow glow + entrance animation */
         .fab {
@@ -532,7 +480,26 @@
 
         .support-panel .mini-form button { width: 100%; padding: 10px; border-radius: 8px; border: none; background: var(--accent-color); color: #012; font-weight: 700; cursor: pointer; }
 
-        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
+        /* ensure the nav contents align like the index page */
+.nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* keep links visually grouped and avoid accidental wrapping */
+.nav-link {
+    display: inline-block;
+    margin-left: 0.25rem;
+    padding: 6px 8px;
+    white-space: nowrap;
+}
+
+/* make the logo and theme-switch spaced from the links */
+.nav-logo { margin-right: 8px; }
+#theme-switch { margin-right: 6px; }
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
         .footer {
         background: var(--dark-section, #0A1229);
         color: var(--text-secondary);
@@ -649,7 +616,7 @@
             width: 100%;
         }
         }
-                .join-btn {
+        .join-btn {
         display: inline-block;
         background: var(--accent-color);
         color: white;
